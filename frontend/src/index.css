@@ -1,0 +1,8 @@
+:root {
+  --main-bg-color: green;
+}
+
+body {
+  --tw-bg-opacity: 1;
+  background-color: rgba(10, 14, 31, var(--tw-bg-opacity));
+}

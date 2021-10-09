@@ -1,0 +1,7 @@
+@import './global/variables.css';
+
+@layer base {
+  body {
+    @apply bg-chambray-800;
+  }
+}
