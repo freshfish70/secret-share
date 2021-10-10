@@ -26,7 +26,11 @@ module.exports = {
         900: '#000000'
       }
     },
-    extend: {}
+    extend: {
+      fontFamily: {
+        roboto: ['Roboto']
+      }
+    }
   },
   variants: {
     extend: {}

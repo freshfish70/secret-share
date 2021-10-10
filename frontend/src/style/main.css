@@ -1,7 +1,19 @@
 @import './global/variables.css';
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@100;400;500;700&display=swap');
 
 @layer base {
   body {
     @apply bg-chambray-800;
+    @apply text-chambray-50;
+    @apply font-roboto;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    @apply text-chambray-300;
   }
 }
