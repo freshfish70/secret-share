@@ -12,7 +12,7 @@ function App() {
       <main className='flex justify-center my-10'>
         <Router>
           <Switch>
-            <Route path='/'>
+            <Route exact path='/'>
               <IndexView />
             </Route>
             <Route path='/retrieve/:shareId'>
@@ -24,7 +24,13 @@ function App() {
           </Switch>
         </Router>
       </main>
-      <div className='text-chambray-600 text-center'>Developed by Christoffer A Træen - GitHub</div>
+      <div className='text-chambray-600 text-center border-chambray-600 text-xs'>
+        Developed by Christoffer A Træen -
+        <a target='_blank' href='https://github.com/freshfish70/secret-share'>
+          {' '}
+          GitHub
+        </a>
+      </div>
     </div>
   )
 }
