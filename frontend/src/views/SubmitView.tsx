@@ -12,8 +12,17 @@ export default function SubmitView() {
     <ContentBox>
       <div className='flex flex-col min-w-full'>
         <h2 className='mb-5 uppercase'>Share secret</h2>
+        <input
+          type='text'
+          name='title-secret'
+          id='title-secret'
+          placeholder='Title'
+          className='min-w-full rounded-md mb-5 bg-chambray-900 text-chambray-200 p-3 text-xs bg-opacity-30 focus:outline-none shadow-lg placeholder-chambray-600'
+        />
         <textarea
           placeholder='Paste your secret here...'
+          name='secret-content'
+          id='secret-content'
           className='min-w-full rounded-md mb-5 h-28 bg-chambray-900 text-chambray-200 p-3 text-xs bg-opacity-30 focus:outline-none shadow-lg placeholder-chambray-600'
         ></textarea>
         <button className='flex justify-center items-center bg-chambray-400 px-6 py-2 rounded-md text-white uppercase hover:bg-chambray-300 transition-all flex-none text-xs'>
