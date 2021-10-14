@@ -2,11 +2,13 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.SpaServices.ReactDevelopmentServer;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using SecretShare.DataAccess;
 
-namespace secretShare
+namespace SecretShare
 {
     public class Startup
     {
@@ -21,6 +23,10 @@ namespace secretShare
         public void ConfigureServices(IServiceCollection services)
         {
 
+            services.AddDbContext<SecretContext>(options =>
+            {
+                options.UseSqlServer(Configuration.GetConnectionString("default"));
+            });
             services.AddControllersWithViews();
 
             // In production, the React files will be served from this directory
