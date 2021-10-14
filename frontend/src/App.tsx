@@ -1,12 +1,12 @@
-import React, { useState } from 'react'
-import { BrowserRouter as Router, Link, Route, Switch } from 'react-router-dom'
+import React from 'react'
+import { BrowserRouter as Router, Route, Switch } from 'react-router-dom'
 import IndexView from './views/IndexView'
 import RetrieveView from './views/RetrieveView'
 import SubmitView from './views/SubmitView'
 
 function App() {
   return (
-    <div className='container mx-auto '>
+    <div className='container mx-auto pb-10'>
       <h1 className='pt-10 text-lg'>SECRET SHARE</h1>
       <span className='text-xs uppercase text-chambray-600'>one way share using pub/priv keys</span>
       <main className='flex justify-center my-10'>
