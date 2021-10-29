@@ -8,6 +8,84 @@ export class KeyShuffler {
   private keyHeader = '-----BEGIN ENCRYPTED PRIVATE KEY-----\r\n'
   private keyFooter = '\r\n-----END ENCRYPTED PRIVATE KEY-----'
 
+  private charArray = [
+    'A',
+    'B',
+    'C',
+    'D',
+    'E',
+    'F',
+    'G',
+    'H',
+    'I',
+    'J',
+    'K',
+    'L',
+    'M',
+    'N',
+    'O',
+    'P',
+    'Q',
+    'R',
+    'S',
+    'T',
+    'U',
+    'V',
+    'W',
+    'X',
+    'Y',
+    'Z',
+    'a',
+    'b',
+    'c',
+    'd',
+    'e',
+    'f',
+    'g',
+    'h',
+    'i',
+    'j',
+    'k',
+    'l',
+    'm',
+    'n',
+    'o',
+    'p',
+    'q',
+    'r',
+    's',
+    't',
+    'u',
+    'v',
+    'w',
+    'x',
+    'y',
+    'z',
+    '1',
+    '2',
+    '3',
+    '4',
+    '5',
+    '6',
+    '7',
+    '8',
+    '9',
+    '+',
+    '/'
+  ]
+
+  private getShuffledChars(passChars: string[]) {
+    let charsArray = [...this.charArray]
+    let charsLength = charsArray.length
+    for (let index = 0; index < 3; index++) {
+      for (const passChar of passChars) {
+        let passCharCode = passChar.charCodeAt(0)
+        charsArray.unshift(charsArray.splice(passCharCode % charsLength, 1)[0])
+      }
+    }
+    return charsArray
+  }
+
   /**
    * Removes header, footer and line breaks from the PEM, and shuffles the
    * content using the passphrase as basis for the shuffling.
@@ -16,17 +94,10 @@ export class KeyShuffler {
    * @returns shuffled pem with header, footer and line breaks omitted
    */
   shuffle(keyPem: string, passphrase: string) {
-    const offsets = this.calculateShuffleOffsets(passphrase)
-    let rawKeyString = this.getRawKeyString(keyPem)
-    const keyLength = rawKeyString.length
-    for (const offset of offsets) {
-      const subString = rawKeyString.substring(keyLength - offset)
-      const remainingKey = rawKeyString.substring(0, keyLength - offset)
-      rawKeyString = `${subString}${remainingKey}`
-    }
-    return rawKeyString
+    const passChars = passphrase.split('')
+    const keyPemChars = this.convertChars(passChars, this.getRawKeyString(keyPem), false)
+    return keyPemChars.reduce((a, e) => (a += e), '')
   }
-
   /**
    * Un-shuffles the shuffled key and reconstruct it to its original PEM form.
    * @param keyShuffled a shuffled key string
@@ -34,14 +105,43 @@ export class KeyShuffler {
    * @returns un-shuffled and reconstructed key
    */
   unShuffle(keyShuffled: string, passphrase: string) {
-    const offsets = this.calculateShuffleOffsets(passphrase, true)
-    let key = keyShuffled
-    for (const offset of offsets) {
-      const subString = key.substring(0, offset)
-      const remainingKey = key.substring(offset)
-      key = `${remainingKey}${subString}`
+    const passChars = passphrase.split('')
+    const keyPemChars = this.convertChars(passChars, keyShuffled, true)
+    return this.reconstructKey(keyPemChars)
+  }
+
+  private convertChars(passChars: string[], pem: string, inverse: boolean) {
+    const charsArray = this.getShuffledChars(passChars)
+    const passSize = this.getPassSize(passChars)
+    const keyPemChars = pem.split('')
+
+    const pemLength = keyPemChars.length
+    const charsLength = charsArray.length
+    let seed = charsLength + passSize
+
+    for (const passChar of passChars) {
+      let passCharCode = passChar.charCodeAt(0)
+      let found = false
+      let offset = 0
+      while (!found) {
+        let pemCharIndex = (seed + offset) % pemLength
+        let originalCharacter = keyPemChars[pemCharIndex]
+        let index = charsArray.findIndex((qx) => qx === originalCharacter)
+        if (index >= 0) {
+          if (inverse) {
+            let nextIndex = index - 1
+            keyPemChars[pemCharIndex] = charsArray[nextIndex < 0 ? charsLength - 1 : nextIndex]
+          } else {
+            let nextIndex = index + 1
+            keyPemChars[pemCharIndex] = charsArray[nextIndex >= charsLength ? 0 : nextIndex]
+          }
+          seed += pemCharIndex + passCharCode
+          found = true
+        }
+        offset++
+      }
     }
-    return this.reconstructKey(key.split(''))
+    return keyPemChars
   }
 
   /**
@@ -72,31 +172,18 @@ export class KeyShuffler {
       if (pos % 64 === 0) acc += '\r\n'
       return acc
     }, '')
-
-    return `${this.keyHeader}${rawKeyString}${this.keyFooter}`
+    let padding = ''
+    for (let index = 0; index < rawKeyString.length % 3; index++) {
+      padding += '='
+    }
+    return `${this.keyHeader}${rawKeyString}${padding}${this.keyFooter}`
   }
 
-  /**
-   * Generates an array of offsets for shuffling the PEM content.
-   * The offsets can be set to be returned in reverse for un-shuffling.
-   * @param passphrase passphrase to calculate offsets from
-   * @param reverse boolean if the offsets should be in reverse order
-   * @returns array of offsets.
-   */
-  private calculateShuffleOffsets(passphrase: string, reverse = false) {
-    let offsets: Array<number> = []
+  private getPassSize(passphrase: string[]) {
+    let seed = 0
     for (const char of passphrase) {
-      offsets.push(
-        char
-          .charCodeAt(0)
-          .toString()
-          .split('')
-          .reduce((acc, char) => {
-            acc += Number.parseInt(char)
-            return acc
-          }, 0)
-      )
+      seed += char.charCodeAt(0)
     }
-    return reverse ? offsets.reverse() : offsets
+    return seed
   }
 }
