@@ -74,6 +74,12 @@ export class KeyShuffler {
     '/'
   ]
 
+  /**
+   * Shuffles the character map with the passChar array
+   * as base for the shuffle.
+   * @param passChars passphrase as array
+   * @returns
+   */
   private getShuffledChars(passChars: string[]) {
     let charsArray = [...this.charArray]
     let charsLength = charsArray.length
@@ -87,26 +93,27 @@ export class KeyShuffler {
   }
 
   /**
-   * Removes header, footer and line breaks from the PEM, and shuffles the
-   * content using the passphrase as basis for the shuffling.
+   * Removes header, footer and line breaks from the PEM, and replaces random
+   * characters in the PEM with new characters.
    * @param keyPem key pem string
-   * @param passphrase passphrase for shuffling the pem
-   * @returns shuffled pem with header, footer and line breaks omitted
+   * @param passphrase passphrase for base for replacing
+   * @returns mutated version of the pem with random characters replaced.
    */
-  shuffle(keyPem: string, passphrase: string) {
+  replace(keyPem: string, passphrase: string) {
     const passChars = passphrase.split('')
     const keyPemChars = this.convertChars(passChars, this.getRawKeyString(keyPem), false)
     return keyPemChars.reduce((a, e) => (a += e), '')
   }
   /**
-   * Un-shuffles the shuffled key and reconstruct it to its original PEM form.
-   * @param keyShuffled a shuffled key string
-   * @param passphrase passphrase used when shuffling the original key
-   * @returns un-shuffled and reconstructed key
+   * Reverts the replaced characters in the PEM with its original characters.
+   * Reformats the certificate to its original form.
+   * @param mutatedPemString a mutated pem string created with replace
+   * @param passphrase passphrase used as basis for the reversion
+   * @returns the original PEM certificate
    */
-  unShuffle(keyShuffled: string, passphrase: string) {
+  revert(mutatedPemString: string, passphrase: string) {
     const passChars = passphrase.split('')
-    const keyPemChars = this.convertChars(passChars, keyShuffled, true)
+    const keyPemChars = this.convertChars(passChars, mutatedPemString, true)
     return this.reconstructKey(keyPemChars)
   }
 
@@ -179,6 +186,11 @@ export class KeyShuffler {
     return `${this.keyHeader}${rawKeyString}${padding}${this.keyFooter}`
   }
 
+  /**
+   * Calculates the sum of all character char codes in the pass phrase
+   * @param passphrase passphrase used in replace and revert
+   * @returns total characters size
+   */
   private getPassSize(passphrase: string[]) {
     let seed = 0
     for (const char of passphrase) {
