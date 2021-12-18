@@ -1,6 +1,8 @@
 ﻿using System;
 using Microsoft.EntityFrameworkCore.Migrations;
 
+#nullable disable
+
 namespace secretshare.Migrations
 {
     public partial class initial : Migration
@@ -11,11 +13,11 @@ namespace secretshare.Migrations
                 name: "Buckets",
                 columns: table => new
                 {
-                    BucketId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    PublicKey = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    PrivateKey = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    CreatedAt = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: false),
-                    UpdatedAt = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: false)
+                    BucketId = table.Column<Guid>(type: "uuid", nullable: false),
+                    PublicKey = table.Column<string>(type: "text", nullable: true),
+                    PrivateKey = table.Column<string>(type: "text", nullable: true),
+                    CreatedAt = table.Column<DateTimeOffset>(type: "timestamp with time zone", nullable: false),
+                    UpdatedAt = table.Column<DateTimeOffset>(type: "timestamp with time zone", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -26,11 +28,13 @@ namespace secretshare.Migrations
                 name: "Secrets",
                 columns: table => new
                 {
-                    SecretId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    Value = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    CreatedAt = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: false),
-                    UpdatedAt = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: false),
-                    BucketId = table.Column<Guid>(type: "uniqueidentifier", nullable: true)
+                    SecretId = table.Column<Guid>(type: "uuid", nullable: false),
+                    Value = table.Column<string>(type: "text", nullable: true),
+                    Viewed = table.Column<bool>(type: "boolean", nullable: false),
+                    ViewedAt = table.Column<DateTimeOffset>(type: "timestamp with time zone", nullable: false),
+                    CreatedAt = table.Column<DateTimeOffset>(type: "timestamp with time zone", nullable: false),
+                    UpdatedAt = table.Column<DateTimeOffset>(type: "timestamp with time zone", nullable: false),
+                    BucketId = table.Column<Guid>(type: "uuid", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -39,8 +43,7 @@ namespace secretshare.Migrations
                         name: "FK_Secrets_Buckets_BucketId",
                         column: x => x.BucketId,
                         principalTable: "Buckets",
-                        principalColumn: "BucketId",
-                        onDelete: ReferentialAction.Restrict);
+                        principalColumn: "BucketId");
                 });
 
             migrationBuilder.CreateIndex(
