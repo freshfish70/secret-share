@@ -11,11 +11,23 @@ import ContentBox from '../components/ContentBox'
  * This is the default view when accessing this frontend.
  */
 export default function IndexView() {
-  let pass = 'ReqwQW wqke QWE 213!@$-684wkjr2#erjSRQ!@##49012erkewrSDRF#@$23923$!#$!@kjwer'
-  // const a = new KeyService()
-  // const { publicKeyPem, privateKeyPem } = a.createKeyPair(pass)
-  // const encrypted = a.encryptWithPublicKey(publicKeyPem, 'I AM DECODED')
-  // console.log(a.decryptWithPrivateKey(privateKeyPem, encrypted, pass))
+  let pass = 'qwertyuiopasdfghjkl;zxcvbnm,.QWERTYUIOPASDFHGJKLZXCVBNM<'
+  const a = new KeyService()
+  const { publicKeyPem, privateKeyPem } = a.createKeyPair(pass)
+  const kw = new KeyShuffler()
+
+  let s = kw.replace(privateKeyPem, pass)
+
+  let u = kw.revert(s, pass)
+  console.log(privateKeyPem)
+
+  console.log(privateKeyPem.length)
+  console.log(u.length)
+
+  // console.log(privateKeyPem === u)
+
+  const encrypted = a.encryptWithPublicKey(publicKeyPem, 'I AM DECODED')
+  console.log(a.decryptWithPrivateKey(u, encrypted, pass))
 
   const [shareDetails, setShareDetails] = useState<undefined | ShareDetails>()
   // const scrambler = new KeyShuffler()
