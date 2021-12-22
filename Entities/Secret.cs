@@ -1,18 +1,23 @@
 using System;
 using System.ComponentModel.DataAnnotations;
+using SecretShare.Entities.Interfaces;
 
 namespace SecretShare
 {
 
-    public record Secret
+    public record Secret : IDateTracked
     {
 
         public Guid SecretId { get; init; }
 
         public String Value { get; init; }
 
-        public DateTimeOffset CreatedAt { get; init; }
+        public bool Viewed { get; init; }
 
-        public DateTimeOffset UpdatedAt { get; init; }
+        public DateTimeOffset ViewedAt { get; init; }
+
+        public DateTimeOffset CreatedAt { get; set; }
+
+        public DateTimeOffset UpdatedAt { get; set; }
     }
 }

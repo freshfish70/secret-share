@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
-namespace secretshare.Migrations
+namespace SecretShare.Migrations
 {
     public partial class initial : Migration
     {

@@ -1,1 +1,1 @@
-docker run --name secret_share -e POSTGRES_PASSWORD=secret_share -d -p 5555:5432 postgres
+docker run --name secret_share -e POSTGRES_PASSWORD=secret_share -e TZ=UTC -e PGTZ=UTC -d -p 5555:5432 postgres

@@ -9,7 +9,7 @@ using SecretShare.DataAccess;
 
 #nullable disable
 
-namespace secretshare.Migrations
+namespace SecretShare.Migrations
 {
     [DbContext(typeof(SecretContext))]
     [Migration("20211218114127_initial")]

@@ -1,11 +1,10 @@
 using System;
 using System.Collections.Generic;
-using SecretShare.Entities.Interfaces;
+using SecretShare;
 
-namespace SecretShare.Entities
+namespace secretshare.Dtos.Response
 {
-
-    public record Bucket : IDateTracked
+    public class BucketDto
     {
         public Guid BucketId { get; init; }
 

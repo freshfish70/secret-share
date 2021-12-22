@@ -8,7 +8,7 @@ using SecretShare.DataAccess;
 
 #nullable disable
 
-namespace secretshare.Migrations
+namespace SecretShare.Migrations
 {
     [DbContext(typeof(SecretContext))]
     partial class SecretContextModelSnapshot : ModelSnapshot

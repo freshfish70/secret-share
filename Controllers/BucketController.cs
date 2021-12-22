@@ -2,7 +2,11 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
+using secretshare.Dtos.Request;
+using secretshare.Services;
+using SecretShare.DataAccess;
 using SecretShare.Entities;
 //using secret-share.Models;
 
@@ -12,8 +16,12 @@ namespace SecretShare.Controllers
     [ApiController]
     public class BucketController : ControllerBase
     {
-        public BucketController()
+        private IBucketService bucketService { get; init; }
+        private IMapper Mapper { get; init; }
+        public BucketController(IBucketService bucketService, IMapper mapper)
         {
+            this.bucketService = bucketService;
+            this.Mapper = mapper;
         }
 
         [HttpGet("")]
@@ -23,19 +31,22 @@ namespace SecretShare.Controllers
         }
 
         [HttpGet("{id}")]
-        public ActionResult<Bucket> GetBucketById(int id)
+        public async Task<ActionResult<Bucket>> GetBucketById(Guid id)
         {
-            return null;
+            var bucket = await this.bucketService.GetBucketAsync(id);
+            return Mapper.Map<Bucket, BucketDto>(bucket);
         }
 
         [HttpPost("")]
-        public ActionResult<Bucket> PostBucket(Bucket model)
+        public async Task<ActionResult<Bucket>> CreateBucket(CreateBucketDto model)
         {
-            return null;
+            var bucket = Mapper.Map<CreateBucketDto, Bucket>(model);
+            var b = await this.bucketService.CreateBucketAsync(bucket);
+            return CreatedAtAction(nameof(GetBucketById), b.BucketId, null);
         }
 
         [HttpPut("{id}")]
-        public IActionResult PutBucket(int id, Bucket model)
+        public IActionResult UpdateBucket(int id, Bucket model)
         {
             return NoContent();
         }
