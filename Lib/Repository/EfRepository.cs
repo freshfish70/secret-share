@@ -2,12 +2,13 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
+using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using SecretShare.DataAccess;
 
 namespace SecretShare.Lib.Repository
 {
-    public class EfRepository<TEntity> : IRepository<TEntity> where TEntity : class
+    public abstract class EfRepository<TEntity> : IRepository<TEntity> where TEntity : class
     {
         internal SecretContext context;
         internal DbSet<TEntity> dbSet;
@@ -18,7 +19,7 @@ namespace SecretShare.Lib.Repository
             dbSet = context.Set<TEntity>();
         }
 
-        public virtual IEnumerable<TEntity> Get(
+        public virtual async Task<IEnumerable<TEntity>> GetAsync(
             Expression<Func<TEntity, bool>> filter = null,
             Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>> orderBy = null,
             string includeProperties = "")
@@ -38,17 +39,22 @@ namespace SecretShare.Lib.Repository
 
             if (orderBy != null)
             {
-                return orderBy(query).ToList();
+                return await orderBy(query).ToListAsync();
             }
             else
             {
-                return query.ToList();
+                return await query.ToListAsync();
             }
         }
 
-        public virtual TEntity GetByID(object id)
+        public virtual async Task<TEntity> GetByIDAsync(int id)
         {
-            return dbSet.Find(id);
+            return await dbSet.FindAsync(id);
+        }
+
+        public virtual async Task<TEntity> GetByIDAsync(Guid id)
+        {
+            return await dbSet.FindAsync(id);
         }
 
         public virtual void Insert(TEntity entity)

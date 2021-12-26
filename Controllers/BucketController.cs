@@ -5,10 +5,9 @@ using System.Threading.Tasks;
 using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using secretshare.Dtos.Request;
+using secretshare.Dtos.Response;
 using secretshare.Services;
-using SecretShare.DataAccess;
 using SecretShare.Entities;
-//using secret-share.Models;
 
 namespace SecretShare.Controllers
 {
@@ -31,7 +30,7 @@ namespace SecretShare.Controllers
         }
 
         [HttpGet("{id}")]
-        public async Task<ActionResult<Bucket>> GetBucketById(Guid id)
+        public async Task<ActionResult<BucketDto>> GetBucketById(Guid id)
         {
             var bucket = await this.bucketService.GetBucketAsync(id);
             return Mapper.Map<Bucket, BucketDto>(bucket);
@@ -41,8 +40,16 @@ namespace SecretShare.Controllers
         public async Task<ActionResult<Bucket>> CreateBucket(CreateBucketDto model)
         {
             var bucket = Mapper.Map<CreateBucketDto, Bucket>(model);
-            var b = await this.bucketService.CreateBucketAsync(bucket);
-            return CreatedAtAction(nameof(GetBucketById), b.BucketId, null);
+            var createdBucket = await this.bucketService.CreateBucketAsync(bucket);
+            return CreatedAtAction(nameof(this.GetBucketById), new { id = createdBucket.BucketId }, null);
+        }
+
+        [HttpPost("{id}/secret")]
+        public async Task<ActionResult<Bucket>> CreateBucketSecret(Guid id, [FromBody] CreateSecretDto model)
+        {
+            var secret = Mapper.Map<CreateSecretDto, Secret>(model);
+            var createdBucket = await this.bucketService.AddSecretToBucketAsync(id, secret);
+            return CreatedAtAction(nameof(this.GetBucketById), new { id }, null);
         }
 
         [HttpPut("{id}")]

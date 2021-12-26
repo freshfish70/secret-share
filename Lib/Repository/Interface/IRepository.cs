@@ -2,18 +2,21 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
+using System.Threading.Tasks;
 
 namespace SecretShare.Lib.Repository
 {
     public interface IRepository<TEntity>
     {
-        IEnumerable<TEntity> Get(
+        Task<IEnumerable<TEntity>> GetAsync(
             Expression<Func<TEntity, bool>> filter = null,
             Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>> orderBy = null,
             string includeProperties = ""
         );
 
-        TEntity GetByID(object id);
+        Task<TEntity> GetByIDAsync(int id);
+        
+        Task<TEntity> GetByIDAsync(Guid id);
 
         void Insert(TEntity entity);
 

@@ -1,3 +1,4 @@
+
 using System;
 using System.ComponentModel.DataAnnotations;
 using SecretShare.Entities.Interfaces;
@@ -5,12 +6,10 @@ using SecretShare.Entities.Interfaces;
 namespace SecretShare.Entities
 {
 
-    public record Secret : IDateTracked
+    public record SecretDto : IDateTracked
     {
 
         public Guid SecretId { get; init; }
-
-        public Guid BucketId { get; init; }
 
         public String Title { get; init; }
 

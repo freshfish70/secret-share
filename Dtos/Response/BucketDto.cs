@@ -1,6 +1,6 @@
 using System;
 using System.Collections.Generic;
-using SecretShare;
+using SecretShare.Entities;
 
 namespace secretshare.Dtos.Response
 {

@@ -10,20 +10,20 @@ namespace SecretShare.DataAccess
 
         private SecretContext Context { get; init; }
 
-        private EfRepository<Bucket> bucketRepository;
+        private IBucketRepository<Bucket> bucketRepository;
 
         public DatabaseAccess(SecretContext context)
         {
             this.Context = context;
         }
 
-        public IRepository<Bucket> BucketRepository
+        public IBucketRepository<Bucket> BucketRepository
         {
             get
             {
                 if (bucketRepository is null)
                 {
-                    bucketRepository = new EfRepository<Bucket>(this.Context);
+                    bucketRepository = new BucketRepository(this.Context);
                 }
                 return bucketRepository;
             }
