@@ -11,6 +11,7 @@ namespace SecretShare.DataAccess
         private SecretContext Context { get; init; }
 
         private IBucketRepository<Bucket> bucketRepository;
+        private ISecretRepository<Secret> secretRepository;
 
         public DatabaseAccess(SecretContext context)
         {
@@ -29,6 +30,17 @@ namespace SecretShare.DataAccess
             }
         }
 
+        public ISecretRepository<Secret> SecretRepository
+        {
+            get
+            {
+                if (secretRepository is null)
+                {
+                    secretRepository = new SecretRepository(this.Context);
+                }
+                return secretRepository;
+            }
+        }
 
         public async Task SaveAsync()
         {

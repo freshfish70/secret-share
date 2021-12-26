@@ -5,6 +5,8 @@ namespace SecretShare.Controllers
     using System.Linq;
     using System.Threading.Tasks;
     using Microsoft.AspNetCore.Mvc;
+    using SecretShare.Entities;
+
     //using secret-share.Models;
     [Route("api/[controller]")]
     [ApiController]

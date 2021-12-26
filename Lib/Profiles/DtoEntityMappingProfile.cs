@@ -16,6 +16,7 @@ namespace secretshare.Lib.Profiles
             CreateMap<CreateBucketDto, Bucket>();
             CreateMap<CreateSecretDto, Secret>();
             CreateMap<Bucket, BucketDto>();
+            CreateMap<Secret, SecretDto>();
         }
     }
 }
