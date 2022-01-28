@@ -3,11 +3,11 @@ using System.Collections.Generic;
 using System.Text.Json;
 using System.Threading.Tasks;
 using AutoMapper;
-using secretshare.Dtos.Request;
+using SecretShare.Dtos.Request;
 using SecretShare.DataAccess;
 using SecretShare.Entities;
 
-namespace secretshare.Services
+namespace SecretShare.Services
 {
     public class SecretService : ISecretService
     {

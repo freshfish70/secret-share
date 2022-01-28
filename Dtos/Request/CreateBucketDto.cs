@@ -1,6 +1,6 @@
 using System.ComponentModel.DataAnnotations;
 
-namespace secretshare.Dtos.Request
+namespace SecretShare.Dtos.Request
 {
     public class CreateBucketDto
     {

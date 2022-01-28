@@ -2,7 +2,7 @@ using System;
 using Hellang.Middleware.ProblemDetails;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using secretshare.Lib;
+using SecretShare.Lib;
 
 namespace SecretShare.Lib.Exceptions
 {

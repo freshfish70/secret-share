@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using secretshare.Services;
+using SecretShare.Services;
 using SecretShare.DataAccess;
 
 namespace SecretShare

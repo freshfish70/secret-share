@@ -4,9 +4,9 @@ using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
-using secretshare.Dtos.Request;
+using SecretShare.Dtos.Request;
 using SecretShare.Dtos.Response;
-using secretshare.Services;
+using SecretShare.Services;
 using SecretShare.Entities;
 
 namespace SecretShare.Controllers

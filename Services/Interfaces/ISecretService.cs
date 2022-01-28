@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using SecretShare.Entities;
 
-namespace secretshare.Services
+namespace SecretShare.Services
 {
     public interface ISecretService
     {

@@ -1,11 +1,11 @@
 using System;
 using AutoMapper;
-using secretshare.Dtos.Request;
-using secretshare.Dtos.Response;
+using SecretShare.Dtos.Request;
+using SecretShare.Dtos.Response;
 using SecretShare;
 using SecretShare.Entities;
 
-namespace secretshare.Lib.Profiles
+namespace SecretShare.Lib.Profiles
 {
     public class DtoEntityMappingProfile : Profile
     {
