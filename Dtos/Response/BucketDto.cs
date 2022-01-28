@@ -1,8 +1,7 @@
 using System;
 using System.Collections.Generic;
-using SecretShare;
 
-namespace secretshare.Dtos.Response
+namespace SecretShare.Dtos.Response
 {
     public class BucketDto
     {
