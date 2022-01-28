@@ -7,9 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using secretshare.Dtos.Request;
 using SecretShare.Dtos.Response;
 using secretshare.Services;
-using SecretShare.DataAccess;
 using SecretShare.Entities;
-//using secret-share.Models;
 
 namespace SecretShare.Controllers
 {
@@ -43,7 +41,15 @@ namespace SecretShare.Controllers
         {
             var bucket = Mapper.Map<CreateBucketDto, Bucket>(model);
             var createdBucket = await this.bucketService.CreateBucketAsync(bucket);
-            return CreatedAtAction(nameof(GetBucketById), createdBucket.BucketId, null);
+            return CreatedAtAction(nameof(this.GetBucketById), new { id = createdBucket.BucketId }, null);
+        }
+
+        [HttpPost("{id}/secret")]
+        public async Task<ActionResult<Bucket>> CreateBucketSecret(Guid id, [FromBody] CreateSecretDto model)
+        {
+            var secret = Mapper.Map<CreateSecretDto, Secret>(model);
+            var createdBucket = await this.bucketService.AddSecretToBucketAsync(id, secret);
+            return CreatedAtAction(nameof(this.GetBucketById), new { id }, null);
         }
 
         [HttpPut("{id}")]

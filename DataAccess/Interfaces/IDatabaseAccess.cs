@@ -6,7 +6,8 @@ namespace SecretShare.DataAccess
 {
     public interface IDatabaseAccess
     {
-        IRepository<Bucket> BucketRepository { get; }
+        IBucketRepository<Bucket> BucketRepository { get; }
+        ISecretRepository<Secret> SecretRepository { get; }
 
         Task SaveAsync();
     }

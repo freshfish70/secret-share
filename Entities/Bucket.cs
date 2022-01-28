@@ -38,6 +38,10 @@ namespace SecretShare.Entities
         /// All secrets belonging to this bucket.
         /// </summary>
         public ICollection<Secret> Secrets { get; init; }
+        public Bucket()
+        {
+            this.Secrets = new HashSet<Secret>();
+        }
 
         public DateTimeOffset CreatedAt { get; set; }
 

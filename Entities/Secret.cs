@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations;
 using SecretShare.Entities.Interfaces;
 using SecretShare.Entities;
 
-namespace SecretShare
+namespace SecretShare.Entities
 {
 
     /// <summary>
@@ -21,6 +21,13 @@ namespace SecretShare
 
         // TODO ADD FOREIGNKEY
         public Bucket Bucket { get; set; }
+
+        public Guid BucketId { get; init; }
+
+        /// <summary>
+        /// A title/description of the secret
+        /// </summary>
+        public String Title { get; init; }
 
         /// <summary>
         /// The encrypted value
