@@ -13,7 +13,7 @@ namespace SecretShare.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class BucketController : ControllerBase
+    public class BucketController : ControllerMain
     {
         private IBucketService bucketService { get; init; }
         private IMapper Mapper { get; init; }

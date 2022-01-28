@@ -1,3 +1,4 @@
+using Hellang.Middleware.ProblemDetails;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
@@ -33,6 +34,7 @@ namespace SecretShare
                 configuration.RootPath = "frontend/dist";
             });
 
+            services.AddProblemDetails();
             services.AddAutoMapper(typeof(Startup));
             services.AddScoped<IBucketService, BucketService>();
             services.AddScoped<IDatabaseAccess, DatabaseAccess>();
@@ -54,6 +56,7 @@ namespace SecretShare
                 app.UseHsts();
             }
 
+            app.UseProblemDetails();
             app.UseHttpsRedirection();
             app.UseStaticFiles();
             app.UseSpaStaticFiles();
