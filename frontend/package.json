@@ -14,8 +14,10 @@
   "dependencies": {
     "@material-ui/core": "^4.12.3",
     "@material-ui/icons": "^4.11.2",
+    "@types/crypto-js": "^4.1.0",
     "@types/node-forge": "^0.10.7",
     "axios": "^0.21.1",
+    "crypto-js": "^4.1.1",
     "node-forge": "^0.10.0",
     "postcss-import": "^14.0.2",
     "react": "^17.0.0",
