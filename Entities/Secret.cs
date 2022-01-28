@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using System.ComponentModel.DataAnnotations;
 using SecretShare.Entities.Interfaces;
 using SecretShare.Entities;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace SecretShare.Entities
 {
@@ -19,14 +20,17 @@ namespace SecretShare.Entities
         /// </summary>
         public Guid SecretId { get; init; }
 
-        // TODO ADD FOREIGNKEY
+        /// <summary>
+        /// Related bucket
+        /// </summary>
+        [ForeignKey("BucketId")]
+        [Required]
         public Bucket Bucket { get; set; }
-
-        public Guid BucketId { get; init; }
 
         /// <summary>
         /// A title/description of the secret
         /// </summary>
+        [Column(TypeName = "varchar(255)")]
         public String Title { get; init; }
 
         /// <summary>
@@ -42,7 +46,7 @@ namespace SecretShare.Entities
         /// <summary>
         /// Date when viewed
         /// </summary>
-        public DateTimeOffset ViewedAt { get; init; }
+        public DateTimeOffset? ViewedAt { get; init; }
 
         public DateTimeOffset CreatedAt { get; set; }
 
