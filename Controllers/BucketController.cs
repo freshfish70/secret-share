@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using secretshare.Dtos.Request;
-using secretshare.Dtos.Response;
+using SecretShare.Dtos.Response;
 using secretshare.Services;
 using SecretShare.Entities;
 
