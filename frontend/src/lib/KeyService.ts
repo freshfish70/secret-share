@@ -19,6 +19,45 @@ export class KeyService {
   }
 
   /**
+   * Creates a passphrase with random characters.
+   * Provide a max lenth, and  rnd lenth.
+   * The rnd length is how much the max length can be reduced by.
+   * rnd = 2 means the password can get a length of max - 0,1,2
+   * @param max max length
+   * @param rnd rnd reduce from max length
+   * @returns
+   */
+  createPassphrase(max: number, rnd: number) {
+    const alphaKeys = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ'
+    const intKeys = '0123456789'
+    const specialKeys = ']+_)(*&^%$#@!=-:;"\'~§|/?.,<>{}['
+    let password = ''
+
+    var b = Math.ceil(Math.random() * 100) % rnd
+    var finalLength = max - b
+
+    for (let i = 0; i < finalLength; i++) {
+      password += alphaKeys.charAt(Math.floor(Math.random() * alphaKeys.length))
+      password += intKeys.charAt(Math.floor(Math.random() * intKeys.length))
+      if (Math.random() > 0.5) {
+        password += specialKeys.charAt(Math.floor(Math.random() * specialKeys.length))
+      }
+    }
+
+    password = password
+      .split('')
+      .sort((_) => 0.5 - Math.random())
+      .sort((_) => 0.5 - Math.random())
+      .join('')
+
+    if (password.length > finalLength) {
+      password = password.slice(0, finalLength)
+    }
+
+    return password
+  }
+
+  /**
    * Encrypts the provided data with the public key, and returns the encrypted data.
    * @param publicKeyPem public key pem string
    * @param data the data to encrypt
