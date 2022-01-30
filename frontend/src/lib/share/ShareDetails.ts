@@ -1,6 +1,5 @@
 export interface ShareDetails {
-  submitUrl: string
-  retrieveUrl: string
-  deleteUrl: string
+  bucketId: string
+  submissionId: string
   passphrase: string
 }

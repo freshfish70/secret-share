@@ -10,28 +10,24 @@ export default function ShareInformation({ shareDetails }: ShareInformationProps
   const info = {
     submit: {
       title: 'Submit',
-      text: shareDetails.submitUrl,
-      subtext: 'For submitting secrets'
+      text: `${import.meta.env.VITE_BASE_URL}/${shareDetails.submissionId}`,
+      subtext: 'Your URL for submitting secrets'
     },
-    retrieve: {
-      title: 'Retrieve',
-      text: shareDetails.retrieveUrl,
-      subtext: 'For retrieving submitted secrets'
-    },
-    delete: {
-      title: 'Delete',
-      text: shareDetails.deleteUrl,
-      subtext: 'For deleting the share (requires passphrase)'
+    retrieval: {
+      title: 'View',
+      text: `${import.meta.env.VITE_BASE_URL}/${shareDetails.bucketId}`,
+      subtext: 'Your URL for retrieving secrets'
     },
     passphrase: {
       title: 'Passphrase',
       text: shareDetails.passphrase,
-      subtext: 'Required for retrieving secrets and deleting the share'
+      subtext: 'Your passphrase required to access your secret bucket'
     }
   }
   return (
     <section className='flex flex-col text-center'>
       <h2 className='text-lg'>Share created</h2>
+      Please save the following
       {Object.values(info).map((v, index) => {
         return <TitledTextContainer key={index} title={v.title} text={v.text} subtext={v.subtext} />
       })}
