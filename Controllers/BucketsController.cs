@@ -43,7 +43,7 @@ namespace SecretShare.Controllers
         public async Task<ActionResult<Bucket>> CreateBucket(CreateBucketDto model)
         {
             var bucket = Mapper.Map<CreateBucketDto, Bucket>(model);
-            var createdBucket = await this.BucketService.CreateBucketAsync(bucket);
+            var createdBucket = await BucketService.CreateBucketAsync(bucket);
             return CreatedAtAction(nameof(this.GetBucketById), new { id = createdBucket.BucketId }, new
             {
                 bucket.BucketId,
@@ -55,28 +55,25 @@ namespace SecretShare.Controllers
         /// Adds a new secret to a bucket.
         /// </summary>
         /// <param name="bucketSubmissionId">the bucket submission id</param>
-        /// <param name="model"></param>
+        /// <param name="secret">secret to add to bucket</param>
         /// <returns></returns>
         [HttpPost("{bucketSubmissionId}/secrets")]
-        public async Task<ActionResult<Bucket>> CreateBucketSecret(Guid bucketSubmissionId, [FromBody] CreateSecretDto model)
+        public async Task<ActionResult<Bucket>> CreateBucketSecret(Guid bucketSubmissionId, [FromBody] CreateSecretDto secret)
         {
-            var secret = Mapper.Map<CreateSecretDto, Secret>(model);
-            var createdBucket = await this.BucketService.AddSecretToBucketAsync(bucketSubmissionId, secret);
+            var secretEntity = Mapper.Map<CreateSecretDto, Secret>(secret);
+            var createdBucket = await this.BucketService.AddSecretToBucketAsync(bucketSubmissionId, secretEntity);
             return CreatedAtAction(nameof(this.GetBucketById), new { bucketSubmissionId }, null);
         }
 
-        [NonAction]
-        [HttpPut("{id}")]
-        public IActionResult UpdateBucket(int id, Bucket model)
+        /// <summary>
+        /// Gets all buckets
+        /// </summary>
+        /// <returns>all bucket in the application</returns>
+        [HttpGet("")]
+        public async Task<ActionResult<IEnumerable<BucketDto>>> GetBuckets()
         {
-            return NoContent();
-        }
-
-        [NonAction]
-        [HttpDelete("{id}")]
-        public ActionResult<Bucket> DeleteBucketById(int id)
-        {
-            return null;
+            var buckets = await this.BucketService.GetBucketsAsync();
+            return Ok(Mapper.Map<IEnumerable<Bucket>, List<BucketDto>>(buckets));
         }
     }
 }

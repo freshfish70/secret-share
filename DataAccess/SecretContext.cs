@@ -26,9 +26,7 @@ namespace SecretShare.DataAccess
                 {
                     ((IDateTracked)entity.Entity).CreatedAt = DateTimeOffset.UtcNow;
                 }
-                System.Console.WriteLine(JsonSerializer.Serialize(entity.Entity));
             }
-            System.Console.WriteLine("SAVING");
             return await base.SaveChangesAsync(cancellationToken);
         }
 

@@ -4,6 +4,7 @@ using SecretShare.Dtos.Request;
 using SecretShare.Dtos.Response;
 using SecretShare;
 using SecretShare.Entities;
+using System.Collections.Generic;
 
 namespace SecretShare.Lib.Profiles
 {
@@ -12,7 +13,7 @@ namespace SecretShare.Lib.Profiles
         public DtoEntityMappingProfile()
         {
             CreateMap<Guid, Guid?>().ConvertUsing(guid => guid == Guid.Empty ? (Guid?)null : guid);
-            CreateMap<Guid?, Guid>().ConvertUsing(guid => !guid.HasValue ? Guid.Empty : guid.Value);
+            CreateMap<Guid?, Guid>().ConvertUsing(guid => guid ?? Guid.Empty);
             CreateMap<CreateBucketDto, Bucket>();
             CreateMap<CreateSecretDto, Secret>();
             CreateMap<Bucket, BucketDto>();

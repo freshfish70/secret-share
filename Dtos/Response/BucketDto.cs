@@ -12,7 +12,7 @@ namespace SecretShare.Dtos.Response
 
         public string PrivateKey { get; init; }
 
-        public ICollection<Secret> Secrets { get; init; }
+        public IEnumerable<SecretDto> Secrets { get; init; }
 
         public DateTimeOffset CreatedAt { get; set; }
 

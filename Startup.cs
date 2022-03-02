@@ -1,4 +1,3 @@
-using Hellang.Middleware.ProblemDetails;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
@@ -7,6 +6,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using SecretShare.Services;
 using SecretShare.DataAccess;
+using Hellang.Middleware.ProblemDetails;
 
 namespace SecretShare
 {
@@ -26,14 +26,13 @@ namespace SecretShare
             {
                 options.UseNpgsql(Configuration.GetConnectionString("default"));
             });
-            services.AddControllersWithViews();
+            services.AddControllers();
 
             // In production, the React files will be served from this directory
             services.AddSpaStaticFiles(configuration =>
             {
                 configuration.RootPath = "frontend/dist";
             });
-
             services.AddProblemDetails();
             services.AddAutoMapper(typeof(Startup));
             services.AddScoped<IBucketService, BucketService>();

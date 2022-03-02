@@ -1,11 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text.Json;
 using System.Threading.Tasks;
-using AutoMapper;
-using Microsoft.EntityFrameworkCore;
-using SecretShare.Dtos.Request;
 using SecretShare.DataAccess;
 using SecretShare.Entities;
 
@@ -16,21 +12,26 @@ namespace SecretShare.Services
         private IDatabaseAccess Db { get; init; }
         public BucketService(IDatabaseAccess db)
         {
-            this.Db = db;
+            Db = db;
         }
+
+        /// <summary>
+        /// Creates a bucket
+        /// </summary>
+        /// <param name="bucket"></param>
+        /// <returns></returns>
         public async Task<Bucket> CreateBucketAsync(Bucket bucket)
         {
-            this.Db.BucketRepository.Insert(bucket);
-            await this.Db.SaveAsync();
+            Db.BucketRepository.Insert(bucket);
+            await Db.SaveAsync();
             return bucket;
         }
 
         public async Task<Secret> AddSecretToBucketAsync(Guid bucketId, Secret secret)
         {
-            var bucket = await this.Db.BucketRepository.GetByIDAsync(bucketId);
+            Bucket bucket = await Db.BucketRepository.GetBucketBySubmissionIdAsync(bucketId);
             bucket.Secrets.Add(secret);
-            this.Db.BucketRepository.Update(bucket);
-            await this.Db.SaveAsync();
+            await Db.SaveAsync();
             return secret;
         }
 
@@ -41,13 +42,13 @@ namespace SecretShare.Services
 
         public async Task<Bucket> GetBucketAsync(Guid id)
         {
-            var bucket = (await this.Db.BucketRepository.GetAsync(e => e.BucketId == id, null, "Secrets")).FirstOrDefault();
+            var bucket = (await Db.BucketRepository.GetAsync(e => e.BucketId == id, null, "Secrets")).FirstOrDefault();
             return bucket;
         }
 
         public async Task<IEnumerable<Bucket>> GetBucketsAsync()
         {
-            throw new NotImplementedException();
+            return await Db.BucketRepository.GetBucketsWithSecrets();
         }
     }
 }

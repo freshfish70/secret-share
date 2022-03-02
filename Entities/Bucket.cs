@@ -4,7 +4,6 @@ using SecretShare.Entities.Interfaces;
 
 namespace SecretShare.Entities
 {
-
     /// <summary>
     /// A bucket is a en entity that can contain several secrets.
     /// The bucket holds the public and private key for encrypting and decrypting.
@@ -37,11 +36,7 @@ namespace SecretShare.Entities
         /// <summary>
         /// All secrets belonging to this bucket.
         /// </summary>
-        public ICollection<Secret> Secrets { get; init; }
-        public Bucket()
-        {
-            this.Secrets = new HashSet<Secret>();
-        }
+        public ICollection<Secret> Secrets { get; init; } = new HashSet<Secret>();
 
         public DateTimeOffset CreatedAt { get; set; }
 
