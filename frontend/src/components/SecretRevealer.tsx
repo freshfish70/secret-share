@@ -1,13 +1,17 @@
 import { FileCopyOutlined, Visibility, VisibilityOff } from '@material-ui/icons'
 import React, { useState } from 'react'
-import TextIconAction from '../components/TextIconAction'
+import { KeyService } from '../lib/KeyService'
+import TextIconAction from './TextIconAction'
 
 interface SecretRevealerProps {
   title: string
   content: string
+  privateKey: string
 }
 
-export default function SecretRevealer({ title, content }: SecretRevealerProps) {
+const keyService = new KeyService()
+
+export default function SecretRevealer({ title, content, privateKey }: SecretRevealerProps) {
   const [contentHidden, setContentHidden] = useState(true)
 
   return (
