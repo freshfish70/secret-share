@@ -44,10 +44,10 @@ namespace SecretShare.Controllers
         {
             var bucket = Mapper.Map<CreateBucketDto, Bucket>(model);
             var createdBucket = await BucketService.CreateBucketAsync(bucket);
-            return CreatedAtAction(nameof(this.GetBucketById), new { id = createdBucket.BucketId }, new
+            return CreatedAtAction(nameof(this.GetBucketById), new { id = createdBucket.BucketId }, new CreatedBucketDto()
             {
-                bucket.BucketId,
-                bucket.SubmissionId
+                BucketId = bucket.BucketId,
+                SubmissionId = bucket.SubmissionId
             });
         }
 
