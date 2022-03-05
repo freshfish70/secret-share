@@ -1,3 +1,4 @@
+import 'reflect-metadata'
 import 'tailwindcss/tailwind.css'
 import './index.css'
 import React from 'react'
