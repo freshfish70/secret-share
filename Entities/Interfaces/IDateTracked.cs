@@ -4,8 +4,8 @@ namespace SecretShare.Entities.Interfaces
 {
     public interface IDateTracked
     {
-        DateTimeOffset CreatedAt { get; set; }
-        DateTimeOffset UpdatedAt { get; set; }
+        DateTime CreatedAt { get; set; }
+        DateTime UpdatedAt { get; set; }
 
     }
 }

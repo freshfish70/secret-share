@@ -8,19 +8,18 @@ namespace SecretShare.Entities
 
     public record SecretDto : IDateTracked
     {
-
         public Guid SecretId { get; init; }
 
-        public String Title { get; init; }
+        public string Title { get; init; }
 
-        public String Value { get; init; }
+        public string Value { get; init; }
 
         public bool Viewed { get; init; }
 
-        public DateTimeOffset ViewedAt { get; init; }
+        public DateTime? ViewedAt { get; init; }
 
-        public DateTimeOffset CreatedAt { get; set; }
+        public DateTime CreatedAt { get; set; }
 
-        public DateTimeOffset UpdatedAt { get; set; }
+        public DateTime UpdatedAt { get; set; }
     }
 }

@@ -1,10 +1,11 @@
 using System;
 using System.Collections.Generic;
 using SecretShare.Entities;
+using SecretShare.Entities.Interfaces;
 
 namespace SecretShare.Dtos.Response
 {
-    public class BucketDto
+    public class BucketDto : IDateTracked
     {
         public Guid BucketId { get; init; }
 
@@ -14,8 +15,8 @@ namespace SecretShare.Dtos.Response
 
         public IEnumerable<SecretDto> Secrets { get; init; }
 
-        public DateTimeOffset CreatedAt { get; set; }
+        public DateTime CreatedAt { get; set; }
 
-        public DateTimeOffset UpdatedAt { get; set; }
+        public DateTime UpdatedAt { get; set; }
     }
 }

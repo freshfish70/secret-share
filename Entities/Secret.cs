@@ -46,10 +46,10 @@ namespace SecretShare.Entities
         /// <summary>
         /// Date when viewed
         /// </summary>
-        public DateTimeOffset? ViewedAt { get; init; }
+        public DateTime? ViewedAt { get; init; }
 
-        public DateTimeOffset CreatedAt { get; set; }
+        public DateTime CreatedAt { get; set; }
 
-        public DateTimeOffset UpdatedAt { get; set; }
+        public DateTime UpdatedAt { get; set; }
     }
 }

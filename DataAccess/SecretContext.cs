@@ -21,10 +21,10 @@ namespace SecretShare.DataAccess
             var entities = ChangeTracker.Entries().Where(entry => entry.Entity is IDateTracked && (entry.State == EntityState.Added || entry.State == EntityState.Modified));
             foreach (var entity in entities)
             {
-                ((IDateTracked)entity.Entity).UpdatedAt = DateTimeOffset.UtcNow;
+                ((IDateTracked)entity.Entity).UpdatedAt = DateTime.UtcNow;
                 if (entity.State == EntityState.Added)
                 {
-                    ((IDateTracked)entity.Entity).CreatedAt = DateTimeOffset.UtcNow;
+                    ((IDateTracked)entity.Entity).CreatedAt = DateTime.UtcNow;
                 }
             }
             return await base.SaveChangesAsync(cancellationToken);
