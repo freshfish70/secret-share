@@ -18,13 +18,16 @@
     "@types/node-forge": "^0.10.7",
     "axios": "^0.21.1",
     "axios-hooks": "^3.0.0",
+    "class-transformer": "^0.5.1",
     "crypto-js": "^4.1.1",
     "node-forge": "^0.10.0",
     "postcss-import": "^14.0.2",
     "react": "^17.0.0",
     "react-dom": "^17.0.0",
     "react-hook-form": "^7.17.2",
+    "react-query": "^3.34.16",
     "react-router-dom": "^5.2.0",
+    "reflect-metadata": "^0.1.13",
     "vite-plugin-imp": "^2.0.7"
   },
   "devDependencies": {
