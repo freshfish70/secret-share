@@ -1,6 +1,8 @@
 import React from 'react'
 import { QueryClient, QueryClientProvider } from 'react-query'
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom'
+import { bucketRoute } from './lib/routes/bucket.route'
+import { secretRoute } from './lib/routes/secret.route'
 import IndexView from './views/IndexView'
 import RetrieveView from './views/RetrieveView'
 import SubmitView from './views/SubmitView'
@@ -20,10 +22,10 @@ function App() {
               <Route exact path='/'>
                 <IndexView />
               </Route>
-              <Route path='/retrieve/:shareId'>
+              <Route path={bucketRoute.viewBucket}>
                 <RetrieveView />
               </Route>
-              <Route path='/submit/:shareId'>
+              <Route path={secretRoute.submitSecret}>
                 <SubmitView />
               </Route>
             </Switch>
