@@ -1,12 +1,10 @@
 import { KeyService } from '@/lib/KeyService'
 import crypto from 'crypto-js'
-import { LockRounded, Settings, SpaOutlined } from '@material-ui/icons'
-import useAxios from 'axios-hooks'
+import { LockRounded, Settings } from '@material-ui/icons'
 import React, { useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { ShareDetails } from '../lib/share/ShareDetails'
-import { KeyShuffler } from '@/lib/KeyShuffler'
-import { IBucket } from '@/lib/dtos/response/IBucket'
+import { useCreateBucket } from '../lib/hooks/buckets'
 
 interface CreateShareProps {
   onCreated: (shareDetails: ShareDetails) => void
@@ -16,10 +14,7 @@ export default function CreateShare({ onCreated }: CreateShareProps) {
   const { handleSubmit } = useForm()
   const [isCreatingShare, setIsCreatingShare] = useState(false)
   const keyService = new KeyService()
-  const [
-    { data: create, loading: creatingShare, error: getError, response: resp },
-    doCreateBucket
-  ] = useAxios<IBucket, number, any>({ url: '/api/buckets', method: 'POST' }, { manual: true })
+  const { mutateAsync: doCreateBucket } = useCreateBucket()
 
   const doHandleFormSubmit = async () => {
     setIsCreatingShare(true)
@@ -27,10 +22,8 @@ export default function CreateShare({ onCreated }: CreateShareProps) {
     var { publicKeyPem, privateKeyPem } = keyService.createKeyPair(passphrase)
     var encryptedPrivateKey = crypto.AES.encrypt(privateKeyPem, passphrase).toString()
     var res = await doCreateBucket({
-      data: {
-        publicKey: publicKeyPem,
-        privateKey: encryptedPrivateKey
-      }
+      publicKey: publicKeyPem,
+      privateKey: encryptedPrivateKey
     })
     onCreated({
       passphrase,

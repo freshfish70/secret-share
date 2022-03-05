@@ -1,40 +1,14 @@
-import {
-  EnhancedEncryptionRounded,
-  Error,
-  EuroRounded,
-  FileCopy,
-  FileCopyOutlined,
-  Keyboard,
-  PanoramaFishEye,
-  RemoveRedEye,
-  RemoveRedEyeOutlined
-} from '@material-ui/icons'
+import { Error } from '@material-ui/icons'
 import React from 'react'
 import ContentBox from '../components/ContentBox'
 import SecretRevealer from '../containers/SecretRevealer'
+import { useGetBucket } from '../lib/hooks/buckets'
 
 /**
  * This view is for retrieving data when data has been submitted to the share id.
  */
 export default function RetrieveView() {
-  const secrets = [
-    {
-      title: 'Password for gmail',
-      content: 'eqjheqh khjqe khqwke hqwkehqkwheqwkjhckjhqkjhwerkhwervkjkwerv'
-    },
-    {
-      title: 'Password for gmail',
-      content: 'eqjheqh khjqe khqwke '
-    },
-    {
-      title: 'Password for gmail',
-      content: 'eqjheqh khjqe khqwke '
-    },
-    {
-      title: 'Outlook content ',
-      content: 'qkleq lkjeql kjeqlkjweljtkergk l;dbkl'
-    }
-  ]
+  const { status, data, refetch } = useGetBucket('8cc1f51b-7d21-401b-92c1-6ac112341bbb')
   return (
     <ContentBox>
       <div className='min-w-full'>
@@ -54,8 +28,8 @@ export default function RetrieveView() {
             ></div>
           </div>
         </section>
-        {secrets.map((s, i) => {
-          return <SecretRevealer key={i} title={s.title} content={s.content} />
+        {data?.data?.secrets.map((s, i) => {
+          return <SecretRevealer key={i} title={s.title} content={s.value} />
         })}
       </div>
     </ContentBox>
