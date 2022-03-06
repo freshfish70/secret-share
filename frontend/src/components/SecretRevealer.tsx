@@ -1,18 +1,39 @@
 import { FileCopyOutlined, Visibility, VisibilityOff } from '@material-ui/icons'
-import React, { useState } from 'react'
+import crypto from 'crypto-js'
+import React, { useEffect, useState } from 'react'
 import { KeyService } from '../lib/KeyService'
+import { KeyShuffler } from '../lib/KeyShuffler'
 import TextIconAction from './TextIconAction'
 
 interface SecretRevealerProps {
   title: string
   content: string
   privateKey: string
+  passphrase: string
 }
 
-const keyService = new KeyService()
-
-export default function SecretRevealer({ title, content, privateKey }: SecretRevealerProps) {
+export default function SecretRevealer({
+  title,
+  content,
+  privateKey,
+  passphrase
+}: SecretRevealerProps) {
   const [contentHidden, setContentHidden] = useState(true)
+  const [decryptedSecret, setDecryptedSecret] = useState('')
+
+  useEffect(() => {
+    try {
+      if (!contentHidden) {
+        const ks = new KeyService()
+        var decryptedPrivateKey = crypto.AES.decrypt(privateKey, passphrase).toString(
+          crypto.enc.Utf8
+        )
+        setDecryptedSecret(ks.decryptWithPrivateKey(decryptedPrivateKey, atob(content), passphrase))
+      } else {
+        setDecryptedSecret('')
+      }
+    } catch (error) {}
+  }, [contentHidden])
 
   return (
     <section className='my-3'>
@@ -42,7 +63,7 @@ export default function SecretRevealer({ title, content, privateKey }: SecretRev
           <span className='text-xs'>Click to reveal</span>
         </div>
         <textarea
-          value={contentHidden ? '' : content}
+          value={contentHidden ? '' : decryptedSecret}
           readOnly={true}
           className={`${
             contentHidden ? 'text-opacity-0' : 'text-opacity-100'

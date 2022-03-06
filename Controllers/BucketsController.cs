@@ -29,10 +29,10 @@ namespace SecretShare.Controllers
         /// </summary>
         /// <param name="id">the id of the bucket to get</param>
         /// <returns>bucket with the given id</returns>
-        [HttpGet("{id}")]
-        public async Task<ActionResult<BucketDto>> GetBucketById(Guid id)
+        [HttpPost("{id}")]
+        public async Task<ActionResult<BucketDto>> GetBucketById([FromRoute] Guid id, [FromBody] GetBucketDto getBucketDto)
         {
-            var bucket = await this.BucketService.GetBucketAsync(id);
+            var bucket = await this.BucketService.GetBucketAsync(id, getBucketDto.RetrievalPassphrase);
             return Mapper.Map<Bucket, BucketDto>(bucket);
         }
 

@@ -9,7 +9,7 @@ namespace SecretShare.Services
 {
     public interface IBucketService
     {
-        Task<Bucket> GetBucketAsync(Guid id);
+        Task<Bucket> GetBucketAsync(Guid id, string retrievalPassphrase);
         Task<Bucket> CreateBucketAsync(Bucket bucket);
         Task<Secret> AddSecretToBucketAsync(Guid bucketId, Secret secret);
         Task<IEnumerable<Bucket>> GetBucketsAsync();

@@ -34,6 +34,11 @@ namespace SecretShare.Entities
         public string PrivateKey { get; init; }
 
         /// <summary>
+        /// Passphrase used for retrieving the bucket.
+        /// </summary>
+        public string RetrievalPassphrase { get; set; }
+
+        /// <summary>
         /// All secrets belonging to this bucket.
         /// </summary>
         public ICollection<Secret> Secrets { get; init; } = new HashSet<Secret>();

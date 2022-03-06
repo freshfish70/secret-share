@@ -1,12 +1,13 @@
 import { CreateBucketDto } from '../dtos/Request/createBucketDto'
 import { CreateSecretDto } from '../dtos/Request/createSecretDto'
+import { GetBucketDto } from '../dtos/Request/getBucketDto'
 import { HttpClient } from '../http/HttpClient'
 import { Bucket } from '../models/Bucket'
 import { CreatedBucket } from '../models/CreatedBucket'
 import { SubmissionDetails } from '../models/SubmissionDetails'
 
-export const getBucketById = (id: string) =>
-  HttpClient.get({ url: `/buckets/${id}`, model: Bucket })
+export const getBucketById = (id: string, data: GetBucketDto) =>
+  HttpClient.post({ url: `/buckets/${id}`, model: Bucket, data })
 
 export const createBucket = (data: CreateBucketDto) =>
   HttpClient.post({ url: '/buckets', data, model: CreatedBucket })

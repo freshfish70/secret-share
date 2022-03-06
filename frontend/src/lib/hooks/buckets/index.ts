@@ -2,9 +2,13 @@ import { useMutation, useQuery } from 'react-query'
 import { createBucket, createSecret, getBucketById, getSubmission } from '../../api/BucketApi'
 import { CreateBucketDto } from '../../dtos/Request/createBucketDto'
 import { CreateSecretDto } from '../../dtos/Request/createSecretDto'
+import { GetBucketDto } from '../../dtos/Request/getBucketDto'
 
-export const useGetBucket = (bucketId: string) => {
-  return useQuery(['bucket', bucketId], () => getBucketById(bucketId))
+export const useGetBucket = (bucketId: string, data: GetBucketDto) => {
+  return useQuery(['bucket', bucketId], () => getBucketById(bucketId, data), {
+    enabled: false,
+    retry: false
+  })
 }
 
 export const useCreateBucket = () => {

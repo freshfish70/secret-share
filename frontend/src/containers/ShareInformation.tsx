@@ -21,7 +21,12 @@ export default function ShareInformation({ shareDetails }: ShareInformationProps
     passphrase: {
       title: 'Passphrase',
       text: shareDetails.passphrase,
-      subtext: 'Your passphrase required to access your secret bucket'
+      subtext: 'Your passphrase required to decrypt the private key'
+    },
+    retrievalPassphrase: {
+      title: 'Retrieval key',
+      text: shareDetails.retrievalPassphrase,
+      subtext: 'Your key required to access your secret bucket'
     }
   }
   return (

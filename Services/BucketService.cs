@@ -1,7 +1,10 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Cryptography;
+using System.Text;
 using System.Threading.Tasks;
+using Hellang.Middleware.ProblemDetails;
 using SecretShare.DataAccess;
 using SecretShare.Entities;
 using SecretShare.models;
@@ -16,6 +19,18 @@ namespace SecretShare.Services
             Db = db;
         }
 
+        private static string ComputeHash(string value)
+        {
+            using SHA256 sha256Hash = SHA256.Create();
+            byte[] bytes = sha256Hash.ComputeHash(Encoding.UTF8.GetBytes(value));
+            StringBuilder stringbuilder = new();
+            for (int i = 0; i < bytes.Length; i++)
+            {
+                stringbuilder.Append(bytes[i].ToString("x2"));
+            }
+            return stringbuilder.ToString();
+        }
+
         /// <summary>
         /// Creates a bucket
         /// </summary>
@@ -23,6 +38,7 @@ namespace SecretShare.Services
         /// <returns></returns>
         public async Task<Bucket> CreateBucketAsync(Bucket bucket)
         {
+            bucket.RetrievalPassphrase = ComputeHash(bucket.RetrievalPassphrase);
             Db.BucketRepository.Insert(bucket);
             await Db.SaveAsync();
             return bucket;
@@ -41,9 +57,21 @@ namespace SecretShare.Services
             throw new NotImplementedException();
         }
 
-        public async Task<Bucket> GetBucketAsync(Guid id)
+        public async Task<Bucket> GetBucketAsync(Guid id, string retrievalPassphrase)
         {
+            var hash = ComputeHash(retrievalPassphrase);
             var bucket = (await Db.BucketRepository.GetAsync(e => e.BucketId == id, null, "Secrets")).FirstOrDefault();
+            if (bucket is not null)
+            {
+                if (bucket.RetrievalPassphrase != hash)
+                {
+                    throw new Exception("bad passphrase");
+                }
+            }
+            else
+            {
+                throw new Exception("Not found");
+            }
             return bucket;
         }
 

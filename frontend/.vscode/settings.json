@@ -12,6 +12,7 @@
         "node_modules": true
     },
     "cSpell.words": [
-        "dtos"
+        "dtos",
+        "VITE"
     ]
 }

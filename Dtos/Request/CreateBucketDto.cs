@@ -9,5 +9,8 @@ namespace SecretShare.Dtos.Request
 
         [Required]
         public string PrivateKey { get; init; }
+
+        [Required]
+        public string RetrievalPassphrase { get; init; }
     }
 }
