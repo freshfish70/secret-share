@@ -1,4 +1,4 @@
-import { FileCopyOutlined, Visibility, VisibilityOff } from '@material-ui/icons'
+import { FileCopyOutlined, Visibility, VisibilityOff, Warning } from '@material-ui/icons'
 import crypto from 'crypto-js'
 import React, { useEffect, useState } from 'react'
 import { KeyService } from '../lib/KeyService'
@@ -20,9 +20,11 @@ export default function SecretRevealer({
 }: SecretRevealerProps) {
   const [contentHidden, setContentHidden] = useState(true)
   const [decryptedSecret, setDecryptedSecret] = useState('')
+  const [error, setError] = useState(false)
 
   useEffect(() => {
     try {
+      setError(false)
       if (!contentHidden) {
         const ks = new KeyService()
         var decryptedPrivateKey = crypto.AES.decrypt(privateKey, passphrase).toString(
@@ -32,7 +34,9 @@ export default function SecretRevealer({
       } else {
         setDecryptedSecret('')
       }
-    } catch (error) {}
+    } catch (error) {
+      setError(true)
+    }
   }, [contentHidden])
 
   return (
@@ -53,17 +57,28 @@ export default function SecretRevealer({
         </div>
       </div>
       <div className='min-w-full min-h-full relative transition-all overflow-hidden'>
-        <div
-          onClick={() => setContentHidden(false)}
-          className={`${
-            contentHidden ? '' : 'opacity-0 -mt-40'
-          } min-w-full min-h-full absolute flex flex-col justify-center items-center cursor-pointer hover:text-chambray-400 text-chambray-500 transition-all`}
-        >
-          <Visibility className='text-xs' fontSize='large' />
-          <span className='text-xs'>Click to reveal</span>
-        </div>
+        {(error && (
+          <div
+            onClick={() => setContentHidden(false)}
+            className={`
+            min-w-full min-h-full absolute flex flex-col justify-center items-center cursor-pointer text-yellow-500 transition-all`}
+          >
+            <Warning className='text-xs' fontSize='large' />
+            <span className='text-xs'>Failed to decrypt secret (check passphrase)</span>
+          </div>
+        )) || (
+          <div
+            onClick={() => setContentHidden(false)}
+            className={`${
+              contentHidden ? '' : 'opacity-0'
+            } min-w-full min-h-full absolute flex flex-col justify-center items-center cursor-pointer hover:text-chambray-400 text-chambray-500 transition-all`}
+          >
+            <Visibility className='text-xs' fontSize='large' />
+            <span className='text-xs'>Click to reveal</span>
+          </div>
+        )}
         <textarea
-          value={contentHidden ? '' : decryptedSecret}
+          value={contentHidden || error ? '' : decryptedSecret}
           readOnly={true}
           className={`${
             contentHidden ? 'text-opacity-0' : 'text-opacity-100'
