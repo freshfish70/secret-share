@@ -4,7 +4,7 @@ interface MainButtonProps
     React.ButtonHTMLAttributes<HTMLButtonElement>,
     HTMLButtonElement
   > {}
-const MainButton: FC<MainButtonProps> = ({ children, ...props }) => {
+const MainButton: FC<MainButtonProps> = (props) => {
   let classes =
     'flex justify-center items-center bg-chambray-400 px-6 py-2 rounded-md text-white uppercase hover:bg-chambray-300 transition-all flex-none text-xs'
   if (props.className) {
@@ -12,7 +12,7 @@ const MainButton: FC<MainButtonProps> = ({ children, ...props }) => {
   }
   return (
     <button {...props} className={classes}>
-      {children}
+      {props.children}
     </button>
   )
 }
