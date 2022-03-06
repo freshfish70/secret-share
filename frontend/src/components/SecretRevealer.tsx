@@ -63,17 +63,17 @@ export default function SecretRevealer({
             className={`
             min-w-full min-h-full absolute flex flex-col justify-center items-center cursor-pointer text-yellow-500 transition-all`}
           >
-            <Warning className='text-xs' fontSize='large' />
+            <Warning className='text-xs mb-2' fontSize='medium' />
             <span className='text-xs'>Failed to decrypt secret (check passphrase)</span>
           </div>
         )) || (
           <div
             onClick={() => setContentHidden(false)}
             className={`${
-              contentHidden ? '' : 'opacity-0'
+              contentHidden ? '' : 'opacity-0 -mt-40'
             } min-w-full min-h-full absolute flex flex-col justify-center items-center cursor-pointer hover:text-chambray-400 text-chambray-500 transition-all`}
           >
-            <Visibility className='text-xs' fontSize='large' />
+            <Visibility className='text-xs mb-2' fontSize='medium' />
             <span className='text-xs'>Click to reveal</span>
           </div>
         )}
