@@ -1,15 +1,15 @@
 import React, { FC } from 'react'
-import { Error } from '@material-ui/icons'
+import { Error, Lock } from '@material-ui/icons'
 
-export const EmptyBucket: FC = () => {
+export const SecretShared: FC = () => {
   return (
     <section className='my-3'>
       <div className='min-w-full min-h-full relative transition-all overflow-hidden'>
         <div
-          className={`animate-pulse min-w-full min-h-full absolute flex flex-col justify-center items-center text-yellow-500 transition-all`}
+          className={`animate-pulse min-w-full min-h-full absolute flex flex-col justify-center items-center text-green-400 transition-all`}
         >
-          <Error />
-          <span className='text-xs mt-2'>This bucket is empty</span>
+          <Lock />
+          <span className='text-xs mt-2'>Secret shared successfully</span>
         </div>
         <div
           className={`${

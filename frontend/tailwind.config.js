@@ -12,6 +12,7 @@ module.exports = {
       indigo: colors.indigo,
       red: colors.rose,
       yellow: colors.amber,
+      green: colors.green,
       chambray: {
         DEFAULT: '#304392',
         50: '#BEC6EA',
@@ -29,7 +30,16 @@ module.exports = {
     extend: {
       fontFamily: {
         roboto: ['Roboto']
-      }
+      },
+      animation: {
+        fadeIn: 'fadeIn .2s ease-in-out'
+      },
+      keyframes: (theme) => ({
+        fadeIn: {
+          '0%': { opacity: 0 },
+          '100%': { opacity: 100 }
+        }
+      })
     }
   },
   variants: {

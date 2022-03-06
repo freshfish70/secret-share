@@ -5,6 +5,7 @@ using SecretShare.Dtos.Response;
 using SecretShare;
 using SecretShare.Entities;
 using System.Collections.Generic;
+using SecretShare.models;
 
 namespace SecretShare.Lib.Profiles
 {
@@ -18,6 +19,7 @@ namespace SecretShare.Lib.Profiles
             CreateMap<CreateSecretDto, Secret>();
             CreateMap<Bucket, BucketDto>();
             CreateMap<Secret, SecretDto>();
+            CreateMap<BucketSubmissionDetails, SubmissionDto>();
         }
     }
 }

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using SecretShare.Dtos.Request;
 using SecretShare.Entities;
+using SecretShare.models;
 
 namespace SecretShare.Services
 {
@@ -13,5 +14,6 @@ namespace SecretShare.Services
         Task<Secret> AddSecretToBucketAsync(Guid bucketId, Secret secret);
         Task<IEnumerable<Bucket>> GetBucketsAsync();
         Task DeleteBucketAsync(Guid id);
+        Task<BucketSubmissionDetails> GetBucketSubmissionDetailsAsync(Guid submissionId);
     }
 }

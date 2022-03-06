@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using SecretShare.DataAccess;
 using SecretShare.Entities;
+using SecretShare.models;
 
 namespace SecretShare.Services
 {
@@ -49,6 +50,11 @@ namespace SecretShare.Services
         public async Task<IEnumerable<Bucket>> GetBucketsAsync()
         {
             return await Db.BucketRepository.GetBucketsWithSecrets();
+        }
+
+        public async Task<BucketSubmissionDetails> GetBucketSubmissionDetailsAsync(Guid submissionId)
+        {
+            return await Db.BucketRepository.GetBucketSubmissionDetailsAsync(submissionId);
         }
     }
 }

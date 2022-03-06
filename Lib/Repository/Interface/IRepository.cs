@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
+using SecretShare.models;
 
 namespace SecretShare.Lib.Repository
 {
@@ -15,7 +16,7 @@ namespace SecretShare.Lib.Repository
         );
 
         Task<TEntity> GetByIDAsync(int id);
-        
+
         Task<TEntity> GetByIDAsync(Guid id);
 
         void Insert(TEntity entity);
@@ -25,6 +26,5 @@ namespace SecretShare.Lib.Repository
         void Delete(object id);
 
         void Delete(TEntity entity);
-
     }
 }

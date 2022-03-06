@@ -8,6 +8,7 @@ using SecretShare.Dtos.Request;
 using SecretShare.Dtos.Response;
 using SecretShare.Services;
 using SecretShare.Entities;
+using SecretShare.models;
 
 namespace SecretShare.Controllers
 {
@@ -57,12 +58,26 @@ namespace SecretShare.Controllers
         /// <param name="bucketSubmissionId">the bucket submission id</param>
         /// <param name="secret">secret to add to bucket</param>
         /// <returns></returns>
-        [HttpPost("{bucketSubmissionId}/secrets")]
+        [HttpPost("submit/{bucketSubmissionId}/secrets")]
         public async Task<ActionResult<Bucket>> CreateBucketSecret(Guid bucketSubmissionId, [FromBody] CreateSecretDto secret)
         {
             var secretEntity = Mapper.Map<CreateSecretDto, Secret>(secret);
             var createdBucket = await this.BucketService.AddSecretToBucketAsync(bucketSubmissionId, secretEntity);
             return CreatedAtAction(nameof(this.GetBucketById), new { bucketSubmissionId }, null);
+        }
+
+
+        /// <summary>
+        /// Gets the bucket submission details for adding a secret
+        /// </summary>
+        /// <param name="bucketSubmissionId">the bucket submission id</param>
+        /// <param name="secret">secret to add to bucket</param>
+        /// <returns></returns>
+        [HttpGet("submit/{bucketSubmissionId}")]
+        public async Task<ActionResult<SubmissionDto>> GetBucketSubmissionDetails(Guid bucketSubmissionId)
+        {
+            var details = await this.BucketService.GetBucketSubmissionDetailsAsync(bucketSubmissionId);
+            return Ok(Mapper.Map<BucketSubmissionDetails, SubmissionDto>(details));
         }
 
         /// <summary>
