@@ -6,7 +6,7 @@ import { GetBucketDto } from '../../dtos/Request/getBucketDto'
 
 export const useGetBucket = (bucketId: string, data: GetBucketDto) => {
   return useQuery(['bucket', bucketId], () => getBucketById(bucketId, data), {
-    enabled: false,
+    enabled: !!(bucketId && data.retrievalPassphrase),
     retry: false
   })
 }
