@@ -1,9 +1,7 @@
-import { Tooltip } from '@material-ui/core'
-import { FileCopyOutlined, Visibility, VisibilityOff, Warning } from '@material-ui/icons'
+import { FileCopyOutlined, Visibility, VisibilityOff, Warning } from '@mui/icons-material'
 import crypto from 'crypto-js'
 import React, { useEffect, useState } from 'react'
 import { KeyService } from '../lib/KeyService'
-import { KeyShuffler } from '../lib/KeyShuffler'
 import TextIconAction from './TextIconAction'
 
 interface SecretContent {

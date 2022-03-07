@@ -1,6 +1,6 @@
 import { KeyService } from '@/lib/KeyService'
 import crypto from 'crypto-js'
-import { LockRounded, Settings } from '@material-ui/icons'
+import { LockRounded, Settings } from '@mui/icons-material'
 import React, { useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { ShareDetails } from '../lib/share/ShareDetails'

@@ -1,5 +1,5 @@
 import React, { FC } from 'react'
-import { Error, Lock } from '@material-ui/icons'
+import { Error, Lock } from '@mui/icons-material'
 
 export const SecretShared: FC = () => {
   return (

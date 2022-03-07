@@ -1,5 +1,6 @@
-import { SvgIconProps, Tooltip } from '@material-ui/core'
 import React, { ReactElement, ReactNode } from 'react'
+import Tooltip from '@mui/material/Tooltip'
+import { SvgIconProps } from '@mui/material/SvgIcon'
 
 interface TextIconActionProps {
   Icon: React.FC<SvgIconProps>

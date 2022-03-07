@@ -1,5 +1,5 @@
 import React, { FC } from 'react'
-import { Error } from '@material-ui/icons'
+import { Error } from '@mui/icons-material'
 
 export const EmptyBucket: FC = () => {
   return (

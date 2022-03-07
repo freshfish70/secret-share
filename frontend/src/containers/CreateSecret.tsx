@@ -1,4 +1,4 @@
-import { SendRounded } from '@material-ui/icons'
+import { SendRounded } from '@mui/icons-material'
 import React, { useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import ContentBox from '../components/ContentBox'
