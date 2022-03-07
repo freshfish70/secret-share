@@ -1,4 +1,5 @@
-import React from 'react'
+import { Snackbar } from '@mui/material'
+import React, { useState } from 'react'
 import TitledTextContainer from '../components/TitledTextContainer'
 import { ShareDetails } from '../lib/share/ShareDetails'
 
@@ -29,12 +30,51 @@ export default function ShareInformation({ shareDetails }: ShareInformationProps
       subtext: 'Your key required to access your bucket'
     }
   }
+
+  const [copied, setCopied] = useState(false)
+
+  const copy = (value: string) => {
+    navigator.clipboard.writeText(value).then(() => {
+      setCopied(true)
+    })
+  }
   return (
     <section className='flex flex-col text-center animate-fadeIn'>
       <h2>BUCKET CREATED</h2>
       <span className='mb-3 text-xs text-chambray-300 animate-pulse'>Save these entries </span>
+      <Snackbar
+        open={copied}
+        anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
+        autoHideDuration={2000}
+        onClose={() => {
+          setCopied(false)
+        }}
+        message='Copied'
+        className='bg-chambray-500'
+        sx={{
+          '.MuiPaper-elevation': {
+            background: 'rgba(48, 67, 146)'
+          }
+        }}
+      />
       {Object.values(info).map((v, index) => {
-        return <TitledTextContainer key={index} title={v.title} text={v.text} subtext={v.subtext} />
+        return (
+          <div
+            key={index}
+            onClick={() => {
+              if (copied) {
+                setTimeout(() => {
+                  copy(v.text)
+                }, 200)
+                setCopied(false)
+              } else {
+                copy(v.text)
+              }
+            }}
+          >
+            <TitledTextContainer key={index} title={v.title} text={v.text} subtext={v.subtext} />
+          </div>
+        )
       })}
     </section>
   )
