@@ -1,3 +1,4 @@
+import { Tooltip } from '@material-ui/core'
 import { FileCopyOutlined, Visibility, VisibilityOff, Warning } from '@material-ui/icons'
 import crypto from 'crypto-js'
 import React, { useEffect, useState } from 'react'
@@ -5,13 +6,21 @@ import { KeyService } from '../lib/KeyService'
 import { KeyShuffler } from '../lib/KeyShuffler'
 import TextIconAction from './TextIconAction'
 
-interface SecretRevealerProps {
-  title: string
+interface SecretContent {
   content: string
   privateKey: string
   passphrase: string
 }
+interface SecretRevealerProps extends SecretContent {
+  title: string
+}
 
+const keyService = new KeyService()
+
+const decrypt = ({ privateKey, passphrase, content }: SecretContent) => {
+  var decryptedPrivateKey = crypto.AES.decrypt(privateKey, passphrase).toString(crypto.enc.Utf8)
+  return keyService.decryptWithPrivateKey(decryptedPrivateKey, atob(content), passphrase)
+}
 export default function SecretRevealer({
   title,
   content,
@@ -21,16 +30,33 @@ export default function SecretRevealer({
   const [contentHidden, setContentHidden] = useState(true)
   const [decryptedSecret, setDecryptedSecret] = useState('')
   const [error, setError] = useState(false)
+  const [copied, setCopied] = useState(false)
+  const [copyIndex, setTimerValue] = useState(-1)
+
+  const copy = () => {
+    setError(false)
+    try {
+      navigator.clipboard.writeText(decrypt({ passphrase, content, privateKey })).then(
+        function () {
+          setCopied(true)
+          window.clearTimeout(copyIndex)
+          const q = window.setTimeout(() => {
+            setCopied(false)
+          }, 1000)
+          setTimerValue(q)
+        },
+        function (err) {}
+      )
+    } catch (error) {
+      setError(true)
+    }
+  }
 
   useEffect(() => {
     try {
       setError(false)
       if (!contentHidden) {
-        const ks = new KeyService()
-        var decryptedPrivateKey = crypto.AES.decrypt(privateKey, passphrase).toString(
-          crypto.enc.Utf8
-        )
-        setDecryptedSecret(ks.decryptWithPrivateKey(decryptedPrivateKey, atob(content), passphrase))
+        setDecryptedSecret(decrypt({ passphrase, content, privateKey }))
       } else {
         setDecryptedSecret('')
       }
@@ -46,7 +72,16 @@ export default function SecretRevealer({
           <span className='text-xs my-3 text-chambray-400'>{title}</span>
         </div>
         <div className='flex justify-center items-center'>
-          <TextIconAction Icon={FileCopyOutlined} text={'Copy'} action={() => {}} />
+          <TextIconAction
+            Icon={FileCopyOutlined}
+            text={'Copy'}
+            showTooltip={copied}
+            tooltipText={'Copied'}
+            disableTooltipOnHover={true}
+            action={() => {
+              copy()
+            }}
+          />
           <TextIconAction
             Icon={contentHidden ? Visibility : VisibilityOff}
             text={contentHidden ? 'show' : 'hide'}
