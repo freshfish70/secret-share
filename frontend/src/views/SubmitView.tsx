@@ -13,7 +13,7 @@ export default function SubmitView() {
   return (
     <ContentBox>
       <div className='flex flex-col min-w-full'>
-        <h2 className='mb-5 uppercase'>Share secret</h2>
+        <h2 className='mb-6'>SHARE A SECRET</h2>
         <CreateSecret publicKey={data?.data.publicKey} submissionId={params.submissionId} />
       </div>
     </ContentBox>

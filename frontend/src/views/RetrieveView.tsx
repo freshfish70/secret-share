@@ -11,7 +11,7 @@ export default function RetrieveView() {
   return (
     <ContentBox>
       <div className='min-w-full'>
-        <h2>Retrieve secrets</h2>
+        <h2>RETRIEVE SECRETS</h2>
         <BucketDisplay bucketId={params.bucketId} />
       </div>
     </ContentBox>

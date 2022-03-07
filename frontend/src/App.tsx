@@ -11,11 +11,13 @@ const queryClient = new QueryClient()
 function App() {
   return (
     <QueryClientProvider client={queryClient}>
-      <div className='container mx-auto pb-10'>
-        <h1 className='pt-10 text-lg'>SECRET SHARE</h1>
-        <span className='text-xs uppercase text-chambray-600'>
-          one way share using pub/priv keys
-        </span>
+      <div className='container mx-auto pb-10 text-center'>
+        <header className='py-5'>
+          <h1 className='pt-10 text-3xl text-chambray-500'>SECRET SHARE</h1>
+          <span className='text-xs uppercase text-chambray-600'>
+            one way share using pub/priv keys
+          </span>
+        </header>
         <main className='flex justify-center my-10'>
           <Router>
             <Switch>

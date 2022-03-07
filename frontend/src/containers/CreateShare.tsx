@@ -45,12 +45,12 @@ export default function CreateShare({ onCreated }: CreateShareProps) {
         {isCreatingShare ? (
           <>
             <Settings fontSize='small' className='animate-spin mr-2' />
-            <span className='text-xs'> GENERATING</span>
+            <span className='text-xs'>GENERATING</span>
           </>
         ) : (
           <>
             <LockRounded fontSize='small' className='mr-2 w-2' />
-            <span className='text-xs'> CREATE SHARE</span>
+            <span className='text-xs'>CREATE BUCKET</span>
           </>
         )}
       </button>
