@@ -4,9 +4,13 @@ import { CreateBucketDto } from '../../dtos/Request/createBucketDto'
 import { CreateSecretDto } from '../../dtos/Request/createSecretDto'
 import { GetBucketDto } from '../../dtos/Request/getBucketDto'
 
-export const useGetBucket = (bucketId: string, data: GetBucketDto) => {
+export const useGetBucket = (
+  bucketId: string,
+  data: GetBucketDto,
+  autoRefetch: boolean = false
+) => {
   return useQuery(['bucket', bucketId], () => getBucketById(bucketId, data), {
-    enabled: !!(bucketId && data.retrievalPassphrase),
+    enabled: autoRefetch,
     retry: false
   })
 }
