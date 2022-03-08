@@ -2,7 +2,7 @@ import { useLocation, useParams } from 'react-router-dom'
 
 // Holds routes related to bucket
 export const bucketRoute = {
-  viewBucket: '/bucket/view/:bucketId'
+  viewBucket: (id?: string | number) => `/bucket/view/${id ? id : ':bucketId'}`
 }
 // ROUTES SPECIFIC
 //

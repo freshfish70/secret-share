@@ -2,7 +2,7 @@ import { useLocation, useParams } from 'react-router-dom'
 
 // Holds routes related to secrets
 export const secretRoute = {
-  submitSecret: '/secret/submit/:submissionId'
+  submitSecret: (id?: string | number) => `/secret/submit/${id ? id : ':submissionId'}`
 }
 // ROUTES SPECIFIC
 //

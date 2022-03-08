@@ -24,10 +24,10 @@ function App() {
               <Route exact path='/'>
                 <IndexView />
               </Route>
-              <Route path={bucketRoute.viewBucket}>
+              <Route path={bucketRoute.viewBucket()}>
                 <RetrieveView />
               </Route>
-              <Route path={secretRoute.submitSecret}>
+              <Route path={secretRoute.submitSecret()}>
                 <SubmitView />
               </Route>
             </Switch>
