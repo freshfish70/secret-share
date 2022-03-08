@@ -1,6 +1,8 @@
-import { Snackbar } from '@mui/material'
 import React, { useState } from 'react'
+import { Snack } from '../components/Snack'
 import TitledTextContainer from '../components/TitledTextContainer'
+import { bucketRoute } from '../lib/routes/bucket.route'
+import { secretRoute } from '../lib/routes/secret.route'
 import { ShareDetails } from '../lib/share/ShareDetails'
 
 interface ShareInformationProps {
@@ -11,12 +13,14 @@ export default function ShareInformation({ shareDetails }: ShareInformationProps
   const info = {
     submit: {
       title: 'Submit',
-      text: `${import.meta.env.VITE_BASE_URL}/${shareDetails.submissionId}`,
+      text: `${import.meta.env.VITE_BASE_URL}${secretRoute.submitSecret(
+        shareDetails.submissionId
+      )}`,
       subtext: 'For adding secrets to the bucket (share this)'
     },
     retrieval: {
       title: 'Bucket',
-      text: `${import.meta.env.VITE_BASE_URL}/${shareDetails.bucketId}`,
+      text: `${import.meta.env.VITE_BASE_URL}${bucketRoute.viewBucket(shareDetails.bucketId)}`,
       subtext: 'For retrieving secrets from the bucket'
     },
     passphrase: {
@@ -40,23 +44,9 @@ export default function ShareInformation({ shareDetails }: ShareInformationProps
   }
   return (
     <section className='flex flex-col text-center animate-fadeIn'>
+      <Snack isOpen={copied} onCloseHandler={() => setCopied(false)} message='Copied' />
       <h2>BUCKET CREATED</h2>
       <span className='mb-3 text-xs text-chambray-300 animate-pulse'>Save these entries </span>
-      <Snackbar
-        open={copied}
-        anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
-        autoHideDuration={2000}
-        onClose={() => {
-          setCopied(false)
-        }}
-        message='Copied'
-        className='bg-chambray-500'
-        sx={{
-          '.MuiPaper-elevation': {
-            background: 'rgba(48, 67, 146)'
-          }
-        }}
-      />
       {Object.values(info).map((v, index) => {
         return (
           <div
@@ -72,7 +62,7 @@ export default function ShareInformation({ shareDetails }: ShareInformationProps
               }
             }}
           >
-            <TitledTextContainer key={index} title={v.title} text={v.text} subtext={v.subtext} />
+            <TitledTextContainer key={index} {...v} />
           </div>
         )
       })}
