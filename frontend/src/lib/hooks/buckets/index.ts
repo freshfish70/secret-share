@@ -1,5 +1,11 @@
 import { useMutation, useQuery } from 'react-query'
-import { createBucket, createSecret, getBucketById, getSubmission } from '../../api/BucketApi'
+import {
+  createBucket,
+  createSecret,
+  deleteBucketById,
+  getBucketById,
+  getSubmission
+} from '../../api/BucketApi'
 import { CreateBucketDto } from '../../dtos/Request/createBucketDto'
 import { CreateSecretDto } from '../../dtos/Request/createSecretDto'
 import { GetBucketDto } from '../../dtos/Request/getBucketDto'
@@ -17,6 +23,13 @@ export const useGetBucket = (
 
 export const useCreateBucket = () => {
   return useMutation((bucketDetails: CreateBucketDto) => createBucket(bucketDetails))
+}
+
+export const useDeleteBucket = () => {
+  return useMutation(
+    ({ bucketId, bucketDetails }: { bucketId: string; bucketDetails: GetBucketDto }) =>
+      deleteBucketById(bucketId, bucketDetails)
+  )
 }
 
 export const useCreateSecret = () => {

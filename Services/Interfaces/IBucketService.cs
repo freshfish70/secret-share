@@ -13,7 +13,7 @@ namespace SecretShare.Services
         Task<Bucket> CreateBucketAsync(Bucket bucket);
         Task<Secret> AddSecretToBucketAsync(Guid bucketId, Secret secret);
         Task<IEnumerable<Bucket>> GetBucketsAsync();
-        Task DeleteBucketAsync(Guid id);
+        Task DeleteBucketAsync(Guid id, string retrievalPassphrase);
         Task<BucketSubmissionDetails> GetBucketSubmissionDetailsAsync(Guid submissionId);
     }
 }

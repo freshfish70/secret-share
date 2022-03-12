@@ -52,9 +52,12 @@ namespace SecretShare.Services
             return secret;
         }
 
-        public async Task DeleteBucketAsync(Guid id)
+        public async Task DeleteBucketAsync(Guid id, string retrievalPassphrase)
         {
-            throw new NotImplementedException();
+            var bucket = await GetBucketAsync(id, retrievalPassphrase);
+            Db.BucketRepository.Delete(bucket);
+            System.Console.WriteLine(bucket.BucketId);
+            await Db.SaveAsync();
         }
 
         public async Task<Bucket> GetBucketAsync(Guid id, string retrievalPassphrase)

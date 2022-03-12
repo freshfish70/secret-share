@@ -1,9 +1,20 @@
+import {
+  CopyAllOutlined,
+  DeleteForever,
+  FileCopyOutlined,
+  FileCopyRounded
+} from '@mui/icons-material'
 import React, { FC, useEffect, useState } from 'react'
+import { useHistory } from 'react-router-dom'
+import { CopyToClipboard } from '../components/Clipboard'
 import { EmptyBucket } from '../components/EmptyBucket'
 import Input from '../components/Input'
 import MainButton from '../components/MainButton'
 import SecretRevealer from '../components/SecretRevealer'
-import { useGetBucket } from '../lib/hooks/buckets'
+import TextIconAction from '../components/TextIconAction'
+import { useDeleteBucket, useGetBucket } from '../lib/hooks/buckets'
+import { bucketRoute } from '../lib/routes/bucket.route'
+import { secretRoute } from '../lib/routes/secret.route'
 
 interface BucketDisplayProps {
   bucketId: string
@@ -13,6 +24,7 @@ export const BucketDisplay: FC<BucketDisplayProps> = ({ bucketId }) => {
   const [retrievalPassphrase, setRetrievalPassPhrase] = useState('')
   const [privateKeyPassphrase, setPrivateKeyPassphrase] = useState('')
   const [autoRefetch, setAutoRefetch] = useState(false)
+  const { replace } = useHistory()
   const { data, refetch, isError, isSuccess } = useGetBucket(
     bucketId,
     {
@@ -20,6 +32,11 @@ export const BucketDisplay: FC<BucketDisplayProps> = ({ bucketId }) => {
     },
     autoRefetch
   )
+  const {
+    isError: deleteError,
+    isSuccess: deleteSuccess,
+    mutateAsync: deleteBucket
+  } = useDeleteBucket()
   const secrets = data?.data.secrets
   const bucket = data?.data
 
@@ -28,6 +45,20 @@ export const BucketDisplay: FC<BucketDisplayProps> = ({ bucketId }) => {
       setAutoRefetch(true)
     }
   }, [isSuccess])
+
+  const handleDeleteBucket = async () => {
+    if (!bucket) return
+    console.log(bucket)
+
+    await deleteBucket({
+      bucketId: bucket.bucketId,
+      bucketDetails: { retrievalPassphrase: retrievalPassphrase }
+    })
+  }
+
+  useEffect(() => {
+    if (deleteSuccess) replace('/')
+  }, [deleteSuccess])
 
   const bucketView = () => {
     if (!bucket)
@@ -78,5 +109,26 @@ export const BucketDisplay: FC<BucketDisplayProps> = ({ bucketId }) => {
     }
   }
 
-  return <>{bucketView()}</>
+  return (
+    <>
+      {bucket && (
+        <section className='mt-3'>
+          <CopyToClipboard
+            value={`${import.meta.env.VITE_BASE_URL}${secretRoute.submitSecret(
+              bucket?.submissionId
+            )}`}
+          >
+            <TextIconAction Icon={FileCopyOutlined} text={'Copy share url'} action={() => {}} />
+          </CopyToClipboard>
+          <TextIconAction
+            Icon={DeleteForever}
+            text={'Delete bucket'}
+            className={'text-yellow-700'}
+            action={handleDeleteBucket}
+          />
+        </section>
+      )}
+      {bucketView()}
+    </>
+  )
 }

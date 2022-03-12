@@ -9,6 +9,7 @@ interface TextIconActionProps {
   showTooltip?: boolean
   disableTooltipOnHover?: boolean
   action: () => void
+  className?: string
 }
 
 export default function TextIconAction({
@@ -17,7 +18,8 @@ export default function TextIconAction({
   action,
   showTooltip,
   disableTooltipOnHover,
-  tooltipText
+  tooltipText,
+  className
 }: TextIconActionProps) {
   return (
     <>
@@ -29,7 +31,7 @@ export default function TextIconAction({
           disableHoverListener={disableTooltipOnHover}
           arrow
         >
-          <div>
+          <div className={className}>
             <Icon fontSize='inherit' className='mr-1 ' />
             <span className='text-xs mr-3  transition-colors'>{text}</span>
           </div>

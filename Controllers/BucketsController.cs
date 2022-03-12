@@ -66,7 +66,6 @@ namespace SecretShare.Controllers
             return CreatedAtAction(nameof(this.GetBucketById), new { bucketSubmissionId }, null);
         }
 
-
         /// <summary>
         /// Gets the bucket submission details for adding a secret
         /// </summary>
@@ -78,6 +77,19 @@ namespace SecretShare.Controllers
         {
             var details = await this.BucketService.GetBucketSubmissionDetailsAsync(bucketSubmissionId);
             return Ok(Mapper.Map<BucketSubmissionDetails, SubmissionDto>(details));
+        }
+
+        /// <summary>
+        /// Deletes a bucket by its id and its password
+        /// </summary>
+        /// <param name="bucketSubmissionId">id of the bucket to delete</param>
+        /// <param name="secret">secret to add to bucket</param>
+        /// <returns></returns>
+        [HttpPost("{bucketId}/destroy")]
+        public async Task<ActionResult<SubmissionDto>> DeleteBucket(Guid bucketId, GetBucketDto details)
+        {
+            await this.BucketService.DeleteBucketAsync(bucketId, details.RetrievalPassphrase);
+            return Ok();
         }
 
         /// <summary>

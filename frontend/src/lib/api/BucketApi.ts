@@ -9,6 +9,9 @@ import { SubmissionDetails } from '../models/SubmissionDetails'
 export const getBucketById = (id: string, data: GetBucketDto) =>
   HttpClient.post({ url: `/buckets/${id}`, model: Bucket, data })
 
+export const deleteBucketById = (id: string, data: GetBucketDto) =>
+  HttpClient.post({ url: `/buckets/${id}/destroy`, model: Bucket, data })
+
 export const createBucket = (data: CreateBucketDto) =>
   HttpClient.post({ url: '/buckets', data, model: CreatedBucket })
 
