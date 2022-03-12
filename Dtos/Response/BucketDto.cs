@@ -9,6 +9,8 @@ namespace SecretShare.Dtos.Response
     {
         public Guid BucketId { get; init; }
 
+        public Guid SubmissionId { get; init; }
+
         public string PublicKey { get; init; }
 
         public string PrivateKey { get; init; }

@@ -2,6 +2,14 @@ import { BucketDto } from '../dtos/Response/bucketDto'
 import { SecretDto } from '../dtos/Response/secretDto'
 
 export class Bucket implements BucketDto {
+  private _submissionId: string = ''
+  public get submissionId(): string {
+    return this._submissionId
+  }
+  public set submissionId(value: string) {
+    this._submissionId = value
+  }
+
   private _bucketId: string = ''
   public get bucketId(): string {
     return this._bucketId
