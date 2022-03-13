@@ -41,7 +41,7 @@ jobs:
       - name: Set secrets
         uses: microsoft/variable-substitution@v1
         with:
-          files: "./dist/secret/appsettings.json"
+          files: "./dist/appsettings.json"
         env:
           ConnectionStrings.Default: "test"
       - uses: montudor/action-zip@v1
