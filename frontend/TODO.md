@@ -1,0 +1,6 @@
+- Save buckets to local storage
+  - Show list of buckets created on this browser
+  - No secrets are stored
+- Add delete secrets
+- Add option to save private key, instead of server storage
+- Show error when entering submit secret and the bucket is deleted
