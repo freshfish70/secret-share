@@ -1,11 +1,12 @@
 name: Deploy Secret Share
-
 on:
   push:
-    branch: [develop]
+    branches:
+      - develop
 
 jobs:
-  deploy-to-server:
+  deploy:
+    name: deploy
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
@@ -14,6 +15,7 @@ jobs:
         with:
           host: ${{ secrets.HOST }}
           key: ${{ secrets.PRIVATE_KEY }}
+          username: ${{secrets.USERNAME}}
           port: ${{ secrets.PORT }}
-          source: "program.cs"
-          target: "/home/freshfish/"
+          source: "Program.cs"
+          target: "/home/${{secrets.USERNAME}}"
