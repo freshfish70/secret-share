@@ -1,0 +1,6 @@
+services:
+  secret:
+    image: freshfish/secret-share
+    build: .
+    ports:
+      - "80"
