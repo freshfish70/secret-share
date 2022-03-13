@@ -2,5 +2,20 @@ services:
   secret:
     image: freshfish/secret-share
     build: .
-    ports:
-      - "80"
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.c_secret_share.entrypoints=web"
+      - "traefik.http.routers.c_secret_share.rule=Host(`secret.traeen.dev`)"
+      - "traefik.http.routers.c_secret_share.entrypoints=websecure"
+      - "traefik.http.routers.c_secret_share.tls=true"
+      - "traefik.http.routers.c_secret_share.tls.certresolver=c_production"
+      - "traefik.http.routers.c_secret_share.tls.domains[0].main=secret.traeen.dev"
+      - "traefik.http.services.c_secret_share.loadbalancer.server.port=80"
+    networks:
+      - net-haugtre-postgres
+      - net-haugtre-proxy
+networks:
+  net-haugtre-postgres:
+    external: true
+  net-haugtre-proxy:
+    external: true
