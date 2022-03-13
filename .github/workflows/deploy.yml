@@ -46,12 +46,12 @@ jobs:
           ConnectionStrings.Default: "test"
       - uses: montudor/action-zip@v1
         with:
-          args: zip -qq -r app.zip ${{env.DOTNET_ROOT}}/secret
+          args: zip -qq -r app.zip ${{env.DOTNET_ROOT}}
       - name: Upload artifact for deployment job
         uses: actions/upload-artifact@v3
         with:
           name: secret
-          path: ${{env.DOTNET_ROOT}}/secret
+          path: ${{env.DOTNET_ROOT}}
   deploy:
     name: deploy
     runs-on: ubuntu-latest
