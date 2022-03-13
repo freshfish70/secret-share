@@ -97,6 +97,7 @@ namespace SecretShare.Controllers
         /// </summary>
         /// <returns>all bucket in the application</returns>
         [HttpGet("")]
+        [NonAction]
         public async Task<ActionResult<IEnumerable<BucketDto>>> GetBuckets()
         {
             var buckets = await this.BucketService.GetBucketsAsync();
