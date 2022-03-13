@@ -19,21 +19,31 @@ export default function CreateShare({ onCreated }: CreateShareProps) {
   const doHandleFormSubmit = async () => {
     setIsCreatingShare(true)
     setTimeout(async () => {
-      var passphrase = keyService.createPassphrase(24, 5)
-      var retrievalPassphrase = keyService.createPassphrase(10, 5)
-      var { publicKeyPem, privateKeyPem } = keyService.createKeyPair(passphrase)
-      var encryptedPrivateKey = crypto.AES.encrypt(privateKeyPem, passphrase).toString()
-      var res = await doCreateBucket({
-        publicKey: publicKeyPem,
-        privateKey: encryptedPrivateKey,
-        retrievalPassphrase
-      })
-      onCreated({
-        passphrase,
-        submissionId: `${res.data.submissionId}`,
-        bucketId: `${res.data.bucketId}`,
-        retrievalPassphrase
-      })
+      let passphrase = import.meta.env.VITE_BASE_DEV_PASS
+      let retrievalPassphrase = import.meta.env.VITE_BASE_DEV_PASS
+      console.log(passphrase)
+
+      if (import.meta.env.MODE == 'production') {
+        passphrase = keyService.createPassphrase(24, 5)
+        retrievalPassphrase = keyService.createPassphrase(10, 5)
+      }
+      try {
+        var { publicKeyPem, privateKeyPem } = keyService.createKeyPair(passphrase)
+        var encryptedPrivateKey = crypto.AES.encrypt(privateKeyPem, passphrase).toString()
+        var res = await doCreateBucket({
+          publicKey: publicKeyPem,
+          privateKey: encryptedPrivateKey,
+          retrievalPassphrase
+        })
+        onCreated({
+          passphrase,
+          submissionId: `${res.data.submissionId}`,
+          bucketId: `${res.data.bucketId}`,
+          retrievalPassphrase
+        })
+      } catch (error) {
+        console.log(error)
+      }
       setIsCreatingShare(false)
     }, 1000)
   }
