@@ -24,8 +24,8 @@ export default function CreateShare({ onCreated }: CreateShareProps) {
       console.log(passphrase)
 
       if (import.meta.env.MODE == 'production') {
-        passphrase = keyService.createPassphrase(24, 5)
-        retrievalPassphrase = keyService.createPassphrase(10, 5)
+        passphrase = keyService.createPassphrase(24, 3)
+        retrievalPassphrase = keyService.createPassphrase(24, 3)
       }
       try {
         var { publicKeyPem, privateKeyPem } = keyService.createKeyPair(passphrase)
