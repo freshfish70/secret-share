@@ -51,7 +51,7 @@ jobs:
         uses: actions/upload-artifact@v3
         with:
           name: secret
-          path: ${{env.DOTNET_ROOT}}/app.zip
+          path: app.zip
   deploy:
     name: deploy
     runs-on: ubuntu-latest
