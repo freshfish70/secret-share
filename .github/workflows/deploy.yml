@@ -51,7 +51,7 @@ jobs:
         uses: actions/upload-artifact@v3
         with:
           name: secret
-          path: ${{env.DOTNET_ROOT}}
+          path: ${{env.DOTNET_ROOT}}/app.zip
   deploy:
     name: deploy
     runs-on: ubuntu-latest
@@ -61,6 +61,7 @@ jobs:
         uses: actions/download-artifact@v3
         with:
           name: secret
+          path: secret
       - name: SFTP DEPLOY
         uses: appleboy/scp-action@master
         with:
@@ -68,5 +69,5 @@ jobs:
           key: ${{ secrets.PRIVATE_KEY }}
           username: ${{secrets.USERNAME}}
           port: ${{ secrets.PORT }}
-          source: "./"
+          source: "secret"
           target: "/home/${{secrets.USERNAME}}"
