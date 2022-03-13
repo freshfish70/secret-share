@@ -5,6 +5,7 @@ using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
 using Hellang.Middleware.ProblemDetails;
+using Microsoft.AspNetCore.Http;
 using SecretShare.DataAccess;
 using SecretShare.Entities;
 using SecretShare.models;
@@ -56,7 +57,6 @@ namespace SecretShare.Services
         {
             var bucket = await GetBucketAsync(id, retrievalPassphrase);
             Db.BucketRepository.Delete(bucket);
-            System.Console.WriteLine(bucket.BucketId);
             await Db.SaveAsync();
         }
 
@@ -68,12 +68,12 @@ namespace SecretShare.Services
             {
                 if (bucket.RetrievalPassphrase != hash)
                 {
-                    throw new Exception("bad passphrase");
+                    throw new ProblemDetailsException(StatusCodes.Status400BadRequest, "Bad passphrase");
                 }
             }
             else
             {
-                throw new Exception("Not found");
+                throw new ProblemDetailsException(StatusCodes.Status404NotFound, "Bucket not found");
             }
             return bucket;
         }
