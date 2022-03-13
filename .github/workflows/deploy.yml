@@ -43,7 +43,7 @@ jobs:
         with:
           files: "./dist/appsettings.json"
         env:
-          ConnectionStrings.Default: "test"
+          ConnectionStrings.Default: ${{CONNECTION_STRING}}
       - uses: montudor/action-zip@v1
         with:
           args: zip -qq -r ./app.zip ./dist ./docker-compose.yml ./Dockerfile
