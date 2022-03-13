@@ -5,10 +5,62 @@ on:
       - develop
 
 jobs:
+  build:
+    name: build
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Get yarn cache
+        id: yarn-cache
+        run: echo "::set-output name=dir::$(yarn cache dir)"
+      - uses: actions/cache@v2
+        with:
+          path: ${{ steps.yarn-cache.outputs.dir }}
+          key: ${{ runner.os }}-yarn-${{ hashFiles('**/yarn.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-yarn-
+      - name: Set up Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: "16.x"
+      - uses: actions/cache@v2
+        with:
+          path: ~/.nuget/packages
+          # Look to see if there is a cache hit for the corresponding requirements file
+          key: ${{ runner.os }}-nuget-${{ hashFiles('**/packages.lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-nuget
+      - name: Setup dotnet
+        uses: actions/setup-dotnet@v1
+        with:
+          dotnet-version: "6"
+      - name: Install dependencies
+        run: dotnet restore
+      - name: Publish
+        run: dotnet publish -c Release -o ${{env.DOTNET_ROOT}}/secret
+      - name: Set secrets
+        uses: microsoft/variable-substitution@v1
+        with:
+          files: "${{env.DOTNET_ROOT}}/secret/appsettings.json"
+        env:
+          ConnectionStrings.Default: "test"
+      - uses: montudor/action-zip@v1
+        with:
+          args: zip -qq -r app.zip ${{env.DOTNET_ROOT}}/secret
+      - name: Upload artifact for deployment job
+        uses: actions/upload-artifact@v3
+        with:
+          name: secret
+          path: ${{env.DOTNET_ROOT}}/secret
   deploy:
     name: deploy
     runs-on: ubuntu-latest
+    needs: build
     steps:
+      - name: Download artifact from build job
+        uses: actions/download-artifact@v3
+        with:
+          name: secret
       - uses: actions/checkout@v2
       - name: SFTP DEPLOY
         uses: appleboy/scp-action@master
@@ -17,5 +69,5 @@ jobs:
           key: ${{ secrets.PRIVATE_KEY }}
           username: ${{secrets.USERNAME}}
           port: ${{ secrets.PORT }}
-          source: "Program.cs"
+          source: "secret"
           target: "/home/${{secrets.USERNAME}}"
