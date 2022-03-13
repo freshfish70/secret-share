@@ -50,8 +50,6 @@ export const BucketDisplay: FC<BucketDisplayProps> = ({ bucketId }) => {
 
   const handleDeleteBucket = async () => {
     if (!bucket) return
-    console.log(bucket)
-
     await deleteBucket({
       bucketId: bucket.bucketId,
       bucketDetails: { retrievalPassphrase: retrievalPassphrase }
@@ -116,7 +114,7 @@ export const BucketDisplay: FC<BucketDisplayProps> = ({ bucketId }) => {
       <PromptDialog
         open={showConfirm}
         onCancel={() => setShowConfirm(false)}
-        onOk={() => deleteBucket}
+        onOk={handleDeleteBucket}
         body='This will permanently delete the bucket, and all its secrets.'
         title='Are you sure?'
       ></PromptDialog>
