@@ -10,7 +10,16 @@ const client = axios.create({
 })
 
 client.interceptors.request.use(async (request) => {
-  console.dir(request.data)
+  if (import.meta.env.MODE === 'development') {
+    console.dir(request.data)
+  }
+  return request
+})
+
+client.interceptors.response.use(async (request) => {
+  if (import.meta.env.MODE === 'development') {
+    console.dir(request.data)
+  }
   return request
 })
 
