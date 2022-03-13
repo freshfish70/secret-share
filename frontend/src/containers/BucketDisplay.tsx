@@ -132,7 +132,7 @@ export const BucketDisplay: FC<BucketDisplayProps> = ({ bucketId }) => {
           <TextIconAction
             Icon={DeleteForever}
             text={'Delete bucket'}
-            className={'text-yellow-700'}
+            className={'text-yellow-700 hover:text-yellow-600'}
             action={() => setShowConfirm(true)}
           />
         </section>
