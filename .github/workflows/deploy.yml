@@ -37,21 +37,21 @@ jobs:
       - name: Install dependencies
         run: dotnet restore
       - name: Publish
-        run: dotnet publish -c Release -o ${{env.DOTNET_ROOT}}/secret
+        run: dotnet publish -c Release -o ./dist
       - name: Set secrets
         uses: microsoft/variable-substitution@v1
         with:
-          files: "${{env.DOTNET_ROOT}}/secret/appsettings.json"
+          files: "./dist/secret/appsettings.json"
         env:
           ConnectionStrings.Default: "test"
       - uses: montudor/action-zip@v1
         with:
-          args: zip -qq -r app.zip ${{env.DOTNET_ROOT}}/secret
+          args: zip -qq -r ./app.zip ./dist/secret
       - name: Upload artifact for deployment job
         uses: actions/upload-artifact@v3
         with:
           name: secret
-          path: app.zip
+          path: ./app.zip
   deploy:
     name: deploy
     runs-on: ubuntu-latest
