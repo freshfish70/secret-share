@@ -4,9 +4,9 @@ interface MainButtonProps
     React.ButtonHTMLAttributes<HTMLButtonElement>,
     HTMLButtonElement
   > {}
-export const MainButton: FC<MainButtonProps> = (props) => {
+export const ErrorButton: FC<MainButtonProps> = (props) => {
   let classes =
-    'flex justify-center items-center bg-chambray-400 px-6 py-2 rounded-md text-white uppercase hover:bg-chambray-300 transition-all flex-none text-xs'
+    'flex justify-center items-center bg-red-700 px-6 py-2 rounded-md text-white uppercase hover:bg-red-500 transition-all flex-none text-xs'
   if (props.className) {
     classes += ` ${props.className}`
   }
@@ -16,5 +16,3 @@ export const MainButton: FC<MainButtonProps> = (props) => {
     </button>
   )
 }
-
-export default MainButton

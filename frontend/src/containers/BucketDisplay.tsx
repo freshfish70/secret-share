@@ -10,6 +10,7 @@ import { CopyToClipboard } from '../components/Clipboard'
 import { EmptyBucket } from '../components/EmptyBucket'
 import Input from '../components/Input'
 import MainButton from '../components/MainButton'
+import { PromptDialog } from '../components/PromptDialog'
 import SecretRevealer from '../components/SecretRevealer'
 import TextIconAction from '../components/TextIconAction'
 import { useDeleteBucket, useGetBucket } from '../lib/hooks/buckets'
@@ -24,6 +25,7 @@ export const BucketDisplay: FC<BucketDisplayProps> = ({ bucketId }) => {
   const [retrievalPassphrase, setRetrievalPassPhrase] = useState('')
   const [privateKeyPassphrase, setPrivateKeyPassphrase] = useState('')
   const [autoRefetch, setAutoRefetch] = useState(false)
+  const [showConfirm, setShowConfirm] = useState(false)
   const { replace } = useHistory()
   const { data, refetch, isError, isSuccess } = useGetBucket(
     bucketId,
@@ -111,6 +113,13 @@ export const BucketDisplay: FC<BucketDisplayProps> = ({ bucketId }) => {
 
   return (
     <>
+      <PromptDialog
+        open={showConfirm}
+        onCancel={() => setShowConfirm(false)}
+        onOk={() => deleteBucket}
+        body='This will permanently delete the bucket, and all its secrets.'
+        title='Are you sure?'
+      ></PromptDialog>
       {bucket && (
         <section className='mt-3'>
           <CopyToClipboard
@@ -124,7 +133,7 @@ export const BucketDisplay: FC<BucketDisplayProps> = ({ bucketId }) => {
             Icon={DeleteForever}
             text={'Delete bucket'}
             className={'text-yellow-700'}
-            action={handleDeleteBucket}
+            action={() => setShowConfirm(true)}
           />
         </section>
       )}
