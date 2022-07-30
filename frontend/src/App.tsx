@@ -13,8 +13,8 @@ function App() {
     <QueryClientProvider client={queryClient}>
       <div className="container mx-auto pb-10 text-center">
         <header className="py-5">
-          <h1 className="pt-10 text-3xl text-chambray-500">SECRET SHARE</h1>
-          <span className="text-xs uppercase text-chambray-600">
+          <h1 className="pt-10 text-3xl text-chambray-300">SECRET SHARE</h1>
+          <span className="text-xs uppercase text-chambray-400">
             one way share using pub/priv keys
           </span>
         </header>
@@ -33,7 +33,7 @@ function App() {
             </Switch>
           </Router>
         </main>
-        <div className="text-chambray-600 text-center border-chambray-600 text-xs">
+        <div className="text-chambray-500 text-center border-chambray-500 text-xs">
           Developed by Christoffer A Træen -
           <a target="_blank" href="https://github.com/freshfish70/secret-share">
             {" "}
