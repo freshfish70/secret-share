@@ -1,10 +1,8 @@
 import Input from "@/components/Input";
 import { Textarea } from "@/components/Textarea";
 import { SendRounded } from "@mui/icons-material";
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { useForm } from "react-hook-form";
-import ContentBox from "../components/ContentBox";
-import { EmptyBucket } from "../components/EmptyBucket";
 import MainButton from "../components/MainButton";
 import { SecretShared } from "../components/SecretShard";
 import { useCreateSecret } from "../lib/hooks/buckets";
@@ -26,10 +24,13 @@ export default function CreateSecret({
   submissionId,
   publicKey,
 }: CreateSecretProps) {
-  const { handleSubmit, register, reset: resetForm } = useForm();
+  const {
+    handleSubmit,
+    register,
+    reset: resetForm,
+  } = useForm<SecretFormValues>();
   const {
     mutateAsync,
-    isError,
     isLoading,
     isSuccess,
     reset: resetCreate,
@@ -72,7 +73,6 @@ export default function CreateSecret({
             type="text"
             id="title-secret"
             placeholder="Title"
-            // className="min-w-full rounded-md mb-5 bg-chambray-900 border-1 border-chambray-700 text-chambray-200 p-3 text-xs bg-opacity-30 focus:outline-none shadow-lg placeholder-chambray-100 placeholder-opacity-40"
             disabled={isLoading}
             {...register("title")}
           />
